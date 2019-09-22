@@ -95,7 +95,6 @@ public class ArticlesFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private boolean filterSearch = false;
     private String keyword = "";
-    private boolean checkFilterPost= true;
 
     public ArticlesFragment() {
         // Required empty public constructor
@@ -300,34 +299,6 @@ public class ArticlesFragment extends BaseFragment {
 
     }
 
-    private void searchCatgories(){
-
-        // edit text search keyword
-        articlesFragmentImSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (articlesFragmentSpinCatogery.getSelectedItemPosition() == 0
-                        && articlesFragmentEditSearch.getText().toString().isEmpty() && !checkFilterPost) {
-
-                    articlesAdapterRecycler = new RecyclerArticlesHomeAdapter( getActivity(),postsArrayList,
-                            favourites,articlesFragmentTxtNoItems);
-                    articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
-                    checkFilterPost = true;
-
-                } else {
-
-                    articlesAdapterRecycler = new RecyclerArticlesHomeAdapter( getActivity(),postsArrayList,
-                            favourites,articlesFragmentTxtNoItems);
-                    articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
-                    checkFilterPost = false;
-
-                    getPostsFilter(1);
-
-                }
-
-            }
-        });
-    }
     // get all  post
     private void getPosts(int page) {
         Call<Posts> call;
@@ -431,8 +402,7 @@ public class ArticlesFragment extends BaseFragment {
         disappearKeypad(getActivity(), view);
         switch (view.getId()) {
             case R.id.articles_fragment_im_search:
-               // onClickImageSearch();
-                searchCatgories();
+               onClickImageSearch();
                 break;
             case R.id.articles_fragment_container:
                 break;
