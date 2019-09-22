@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+
+            <size android:width="36dp"
+                android:height="36dp" />
+            <stroke
+                android:width="@dimen/dim_1"
+                android:color="@color/fathblue" />
+            <corners
+                android:bottomLeftRadius="@dimen/dim_80"
+                android:bottomRightRadius="@dimen/dim_80"
+                android:topLeftRadius="@dimen/dim_80"
+                android:topRightRadius="@dimen/dim_80" />
+
+            <padding
+                android:bottom="@dimen/dim_10"
+                android:left="@dimen/dim_10"
+                android:right="@dimen/dim_10"
+                android:top="@dimen/dim_10" />
+
+        </shape>
+
+    </item>
+</selector>

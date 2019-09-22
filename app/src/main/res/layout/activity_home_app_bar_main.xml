@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.HomeActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_60"
+        android:background="@color/gray_dark">
+
+        <ImageView
+            android:id="@+id/nav_menu"
+            android:layout_width="@dimen/dim_30"
+            android:layout_height="@dimen/dim_30"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dim_12"
+            android:src="@drawable/menu"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/App_Bar_TextViewChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dim_8"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_14" />
+
+        <ImageView
+            android:id="@+id/home_navigation_activity_iv_notification"
+            android:layout_width="@dimen/dim_40"
+            android:layout_height="@dimen/dim_40"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dim_8"
+            android:padding="@dimen/dim_8"
+            android:src="@drawable/notify_36"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/home_navigation_activity_tv_notificationCount"
+            android:layout_width="@dimen/dim_20"
+            android:layout_height="@dimen/dim_20"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dim_12"
+            android:layout_marginTop="@dimen/dim_8"
+            android:background="@drawable/badge_background"
+            android:gravity="center"
+            android:padding="@dimen/dim_4"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_8"
+            android:visibility="gone"/>
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/activity_home_content_main" />
+
+</LinearLayout>

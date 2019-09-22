@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/fragment_home_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.fragment.HomeCycle.HomeFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_2"
+        android:background="@color/tab_gray" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/home_fragment_tab"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:tabBackground="@drawable/tabhomebackground"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/tabtext"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/thick_blue" />
+
+    <View
+        android:id="@+id/viewtab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_2"
+        android:background="@color/tab_gray"
+        android:layout_below="@id/home_fragment_tab"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/home_fragment_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/viewtab"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/ArticlesAndRequests_FloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dim_8"
+        android:layout_marginStart="@dimen/dim_8"
+        android:src="@drawable/icon_add_36"
+        app:backgroundTint="@color/green" />
+
+</RelativeLayout>

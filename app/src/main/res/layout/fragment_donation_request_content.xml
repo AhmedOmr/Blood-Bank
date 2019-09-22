@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gra"
+    android:orientation="vertical">
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dim_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:text="@string/name_1"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_name"
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"
+                        android:text="@string/age"
+                        />
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_age"
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"
+                        android:text="@string/blood_type" />
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_blood_type"
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"
+                        android:text="@string/number_of_bags_required" />
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_num_bloods_bags"
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"
+                        android:text="@string/hospital" />
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_hospital_name"
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"
+                        android:text="@string/hospital_address" />
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_hospital_address"
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16" />
+                </LinearLayout>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"
+                        android:text="@string/phone_1"/>
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_phone_number"
+                        android:layout_width="@dimen/dim_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="@dimen/dim_4"
+                    android:background="@drawable/shape_border_txt"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dim_4">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dim_0"
+                        android:layout_weight="2"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"
+                        android:textStyle="bold"
+                        android:text="@string/details_1" />
+
+                    <TextView
+                        android:id="@+id/donation_request_content_fragment_txt_datails"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dim_0"
+                        android:layout_weight="4"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:maxLines="2"
+                        android:padding="@dimen/dim_2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_16"/>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@color/gray" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/donation_request_content_fragment_map"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dim_200" />
+
+                    <ImageView
+                        android:id="@+id/fragmentContentDonationMapBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="@dimen/dim_2"
+                        android:layout_marginBottom="@dimen/dim_2"
+                        android:layout_marginStart="@dimen/dim_2"
+                        android:src="@drawable/showmap" />
+
+                </RelativeLayout>
+
+
+                <Button
+                    android:id="@+id/donation_request_content_fragment_btn_call"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_5"
+                    android:padding="@dimen/dim_5"
+                    android:background="@color/green"
+                    android:text="@string/call"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

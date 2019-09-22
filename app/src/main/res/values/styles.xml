@@ -1,0 +1,48 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/thick_blue</item>
+        <item name="colorPrimaryDark">@color/thick_blue</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="fullScreen" parent="@style/Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+    </style>
+
+    <style name="home_activity" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/thick_blue</item>
+        <item name="colorPrimaryDark">@color/thick_blue</item>
+        <item name="colorAccent">@color/thick_blue</item>
+    </style>
+
+
+
+    <style name="NavDrawerTextStyle" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">@dimen/dim_10</item>
+        <item name="android:layout_margin">@dimen/dim_5</item>
+        <item name="android:background">@color/light_gray</item>
+
+    </style>
+    <style name="tabtext" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+</resources>

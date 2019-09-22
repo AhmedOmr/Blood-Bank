@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="UselessLeaf"
+    android:background="@color/gra">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dim_8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_border_txt"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gra"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dim_8"
+                    android:layout_marginTop="@dimen/dim_8"
+                    android:layout_marginBottom="@dimen/dim_8"
+                    android:text="@string/blood_type"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/setting_notification_fragment_grid_view_blood_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:horizontalSpacing="@dimen/dim_8"
+                android:numColumns="3"
+                android:verticalSpacing="@dimen/dim_8" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_border_txt"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/dim_8">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gra"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dim_8"
+                    android:layout_marginTop="@dimen/dim_8"
+                    android:layout_marginBottom="@dimen/dim_8"
+                    android:text="@string/governorate"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/setting_notification_fragment_grid_view_gov"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:horizontalSpacing="@dimen/dim_8"
+                android:numColumns="3"
+                android:verticalSpacing="@dimen/dim_8" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/setting_notification_fragment_btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dim_8"
+            android:background="@color/color_tab_bar_line_select"
+            android:text="@string/save"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</LinearLayout>

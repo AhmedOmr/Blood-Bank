@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/articles_content_fragment_lin_layout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dim_10"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/donation_request_adapter_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_100"
+        android:layout_marginStart="@dimen/dim_4"
+        android:layout_marginTop="@dimen/dim_2"
+        android:layout_marginEnd="@dimen/dim_4"
+        android:layout_marginBottom="@dimen/dim_2">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dim_4">
+
+            <Button
+                android:id="@+id/donation_request_adapter_btn_details"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/shape_edit_gray"
+                android:gravity="center"
+                android:padding="@dimen/dim_2"
+                android:text="@string/details"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/donation_request_adapter_btn_call"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dim_5"
+                android:layout_weight="1"
+                android:background="@drawable/shape_edit_green"
+                android:drawableEnd="@drawable/call_20"
+                android:gravity="center"
+                android:padding="@dimen/dim_2"
+                android:text="@string/call"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dim_5"
+            android:layout_toEndOf="@id/donation_request_adapter_txt_blood_type"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_0"
+                android:layout_gravity="start|center"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:maxLines="2"
+                android:padding="@dimen/dim_2"
+                android:text="@string/name_of_the_case"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_10"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_0"
+                android:layout_gravity="start|center"
+                android:layout_weight="1"
+                android:gravity="start|center_horizontal"
+                android:maxLines="2"
+                android:padding="@dimen/dim_2"
+                android:text="@string/hospital"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_10"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_0"
+                android:layout_gravity="start|center"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:maxLines="2"
+                android:padding="@dimen/dim_2"
+                android:text="@string/city"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_10"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/dim_5"
+            android:layout_toStartOf="@id/linearLayout1"
+            android:layout_toEndOf="@id/linearLayout2"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/donation_request_adapter_txt_patient_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_0"
+                android:layout_gravity="start|center"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:maxLines="2"
+                android:padding="@dimen/dim_2"
+                android:text="@string/text_example"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_10"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/donation_request_adapter_txt_hospital"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_0"
+                android:layout_gravity="start|center"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:maxLines="2"
+                android:padding="@dimen/dim_2"
+                android:text="@string/text_example"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_10"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/donation_request_adapter_txt_city"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_0"
+                android:layout_gravity="start|center"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:maxLines="2"
+                android:padding="@dimen/dim_2"
+                android:text="@string/text_example"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_10"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/donation_request_adapter_txt_blood_type"
+            android:layout_width="@dimen/dim_80"
+            android:layout_height="@dimen/dim_80"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/dim_5"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_background_blood"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</LinearLayout>

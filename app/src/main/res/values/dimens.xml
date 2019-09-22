@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--dimensions -->
+    <dimen name="dim_0">0dp</dimen>
+    <dimen name="dim_1">1dp</dimen>
+    <dimen name="dim_2">2dp</dimen>
+    <dimen name="dim_3">3dp</dimen>
+    <dimen name="dim_4">4dp</dimen>
+    <dimen name="dim_5">5dp</dimen>
+    <dimen name="dim_6">6dp</dimen>
+    <dimen name="dim_8">8dp</dimen>
+    <dimen name="dim_10">10dp</dimen>
+    <dimen name="dim_l2">12dp</dimen>
+    <dimen name="dim_15">15dp</dimen>
+    <dimen name="dim_l6">16dp</dimen>
+    <dimen name="dim_20">20dp</dimen>
+    <dimen name="dim_24">24dp</dimen>
+    <dimen name="dim_28">28dp</dimen>
+    <dimen name="dim_30">30dp</dimen>
+    <dimen name="dim_32">32dp</dimen>
+    <dimen name="dim_36">36dp</dimen>
+    <dimen name="dim_40">40dp</dimen>
+    <dimen name="dim_45">45dp</dimen>
+    <dimen name="dim_50">50dp</dimen>
+    <dimen name="dim_56">56dp</dimen>
+    <dimen name="dim_60">60dp</dimen>
+    <dimen name="dim_70">70dp</dimen>
+    <dimen name="dim_80">80dp</dimen>
+    <dimen name="dim_96">96dp</dimen>
+    <dimen name="dim_100">100dp</dimen>
+    <dimen name="dim_120">120dp</dimen>
+    <dimen name="dim_150">150dp</dimen>
+    <dimen name="dim_154">154dp</dimen>
+    <dimen name="dim_180">180dp</dimen>
+    <dimen name="dim_194">194dp</dimen>
+
+   <!-- font size-->
+    <dimen name="font_1">1sp</dimen>
+    <dimen name="font_8">8sp</dimen>
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_18">18sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_32">32sp</dimen>
+    <dimen name="font_10">10sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="dim_200">200dp</dimen>
+
+    <dimen name="dim_sss">1dp</dimen>
+
+    <dimen name="dim_ss">2dp</dimen>
+
+    <dimen name="dim_s">4dp</dimen>
+
+    <dimen name="dim_m">8dp</dimen>
+
+    <dimen name="dim_l">16dp</dimen>
+
+    <dimen name="dim_xl">24dp</dimen>
+
+    <dimen name="dim_2xl">32dp</dimen>
+
+    <dimen name="dim_3xl">40dp</dimen>
+
+    <dimen name="dim_4xl">48dp</dimen>
+
+    <dimen name="dim_5xl">56dp</dimen>
+
+    <dimen name="dim_6xl">64dp</dimen>
+
+    <dimen name="dim_7xl">72dp</dimen>
+
+    <dimen name="dim_8xl">80dp</dimen>
+
+    <dimen name="dim_9xl">88dp</dimen>
+
+    <dimen name="dim_10xl">96dp</dimen>
+
+    <dimen name="dim_11xl">104dp</dimen>
+
+    <dimen name="dim_12xl">112dp</dimen>
+
+    <dimen name="dim_13xl">120dp</dimen>
+
+    <dimen name="dim_16xl">120dp</dimen>
+
+    <dimen name="dim_17xl">128dp</dimen>
+
+    <dimen name="dim_18xl">136dp</dimen>
+
+    <dimen name="dim_19xl">144dp</dimen>
+
+    <dimen name="dim_20xl">154dp</dimen>
+
+    <dimen name="dim_21xl">162dp</dimen>
+
+    <dimen name="dim_22xl">170dp</dimen>
+
+    <dimen name="dim_23xl">178dp</dimen>
+
+    <dimen name="dim_24xl">186dp</dimen>
+
+    <dimen name="dim_25xl">194dp</dimen>
+
+    <dimen name="dim_26xl">202dp</dimen>
+
+    <dimen name="dim_27xl">250dp</dimen>
+
+    <dimen name="dim_28dp">28dp</dimen>
+
+    <dimen name="txt_size_sss">8sp</dimen>
+
+    <dimen name="txt_size_ss">10sp</dimen>
+
+    <dimen name="txt_size_s">12sp</dimen>
+
+    <dimen name="txt_size_m">16sp</dimen>
+
+    <dimen name="txt_size_l">20sp</dimen>
+
+    <dimen name="txt_size_ll">22sp</dimen>
+
+    <dimen name="txt_size_xl">24sp</dimen>
+
+    <dimen name="txt_size_2xl">28sp</dimen>
+
+    <dimen name="txt_size_3xl">32sp</dimen>
+
+    <dimen name="txt_size_4xl">36sp</dimen>
+
+    <dimen name="txt_size_5xl">40sp</dimen>
+
+    <dimen name="txt_size_6xl">44sp</dimen>
+    <dimen name="dim_48">48dp</dimen>
+    <dimen name="dim_12">12dp</dimen>
+    <dimen name="dim_75">75dp</dimen>
+    <dimen name="dim_22">22dp</dimen>
+    <dimen name="dim_38">38dp</dimen>
+    <dimen name="dim_14">14dp</dimen>
+
+</resources>

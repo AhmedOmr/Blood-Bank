@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bck_320_480"
+    tools:context=".view.fragment.loginCycle.NewAccountFragment">
+
+    <LinearLayout
+        android:id="@+id/new_account_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_80"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="@dimen/dim_10"
+            android:text="@string/create_new_account"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/thick_blue" />
+
+        <EditText
+            android:id="@+id/new_account_fragment_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:hint="@string/name"
+            android:inputType="text"
+            android:maxLength="25"
+            android:padding="@dimen/dim_10"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/new_account_fragment_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/dim_10"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/new_account_fragment_txt_Birth_date"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:drawableEnd="@drawable/calendar_24"
+            android:hint="@string/birthday_date"
+            android:padding="@dimen/dim_10"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+
+        <Spinner
+            android:id="@+id/new_account_fragment_spin_blood_type"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:gravity="center"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:id="@+id/new_account_fragment_txt_last_date_donation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_10"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:drawableEnd="@drawable/calendar_24"
+            android:hint="@string/last_dat_todonate"
+            android:padding="@dimen/dim_10"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <Spinner
+            android:id="@+id/new_account_fragment_spin_governorate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:gravity="center"
+            android:spinnerMode="dropdown" />
+
+        <Spinner
+            android:id="@+id/new_account_fragment_spin_city"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:layout_marginBottom="@dimen/dim_6"
+            android:hint="@string/city"
+            android:gravity="center"
+            android:spinnerMode="dropdown"/>
+
+        <EditText
+            android:id="@+id/new_account_fragment_et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_10"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:hint="@string/phon_numper"
+            android:padding="@dimen/dim_10"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/new_account_fragment_et_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:inputType="text"
+            android:background="@drawable/shape_edit"
+            android:hint="@string/enter_password"
+            android:padding="@dimen/dim_10" />
+
+        <EditText
+            android:id="@+id/new_account_fragment_et_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:hint="@string/confirm_password"
+            android:padding="@dimen/dim_10"
+            android:inputType="text"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/new_account_fragment_btn_signup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginTop="@dimen/dim_6"
+            android:layout_marginBottom="@dimen/dim_5"
+            android:background="@drawable/shape_edit_blue"
+            android:text="@string/sign_up"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
