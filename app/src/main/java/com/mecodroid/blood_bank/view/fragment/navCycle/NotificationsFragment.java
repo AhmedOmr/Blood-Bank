@@ -5,13 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.adapter.notificationRecyclerAdapter.NotificationAdapterRecycler;
@@ -35,7 +32,7 @@ import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
 import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
-import static com.mecodroid.blood_bank.helper.HelperMethod.isNetworkConnected;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
 
@@ -110,61 +107,60 @@ public class NotificationsFragment extends BaseFragment {
     }
 
     private void getNotificationList(final int page) {
-        boolean check_network = isNetworkConnected(getActivity(), getView());
-        if (check_network == false) {
-            dismissProgressDialog();
-            return;
-        }
-        showProgressDialog(getActivity(), getString(R.string.waiit));
-        apiServer.getNotificationsList(LoadStringData(getActivity(), API_TOKEN), page)
-                .enqueue(new Callback<Notifications>() {
-                    @Override
-                    public void onResponse(Call<Notifications> call, Response<Notifications> response) {
-                        try {
-                            dismissProgressDialog();
+        if (isConnected(getActivity())) {
 
-                            if (response.body().getStatus() == 1) {
-                                if (page == 1) {
-                                    if (response.body().getDataNotifyPage().getTotal() > 0) {
-                                        notificationFragmentTvNoResults.setVisibility(View.GONE);
+            showProgressDialog(getActivity(), getString(R.string.waiit));
+            apiServer.getNotificationsList(LoadStringData(getActivity(), API_TOKEN), page)
+                    .enqueue(new Callback<Notifications>() {
+                        @Override
+                        public void onResponse(Call<Notifications> call, Response<Notifications> response) {
+                            try {
+                                dismissProgressDialog();
 
-                                    } else {
-                                        notificationFragmentTvNoResults.setVisibility(View.VISIBLE);
+                                if (response.body().getStatus() == 1) {
+                                    if (page == 1) {
+                                        if (response.body().getDataNotifyPage().getTotal() > 0) {
+                                            notificationFragmentTvNoResults.setVisibility(View.GONE);
+
+                                        } else {
+                                            notificationFragmentTvNoResults.setVisibility(View.VISIBLE);
+
+                                        }
+
+                                        onEndLess.current_page = 1;
+                                        onEndLess.previousTotal = 0;
+                                        onEndLess.previous_page = 1;
+
+                                        max = 0;
+
+                                        max = response.body().getDataNotifyPage().getLastPage();
+                                        notificationsArrayList.addAll(response.body().getDataNotifyPage().getData());
+                                        notificationAdapterRecycler.notifyDataSetChanged();
 
                                     }
 
-                                    onEndLess.current_page = 1;
-                                    onEndLess.previousTotal = 0;
-                                    onEndLess.previous_page = 1;
 
-                                    max = 0;
-
-                                    max = response.body().getDataNotifyPage().getLastPage();
-                                    notificationsArrayList.addAll(response.body().getDataNotifyPage().getData());
-                                    notificationAdapterRecycler.notifyDataSetChanged();
+                                } else {
+                                    customMassageError(getActivity(), response.body().getMsg());
 
                                 }
-
-
-                            } else {
-                                customMassageError(getActivity(), response.body().getMsg());
+                            } catch (Exception e) {
+                                customMassageError(getActivity(), e.getMessage());
 
                             }
-                        } catch (Exception e) {
-                            customMassageError(getActivity(), e.getMessage());
+
 
                         }
 
+                        @Override
+                        public void onFailure(Call<Notifications> call, Throwable t) {
+                            dismissProgressDialog();
+                            customMassageError(getActivity(), t.getMessage());
+                        }
+                    });
+        } else {
 
-                    }
-
-                    @Override
-                    public void onFailure(Call<Notifications> call, Throwable t) {
-                        dismissProgressDialog();
-                        customMassageError(getActivity(), t.getMessage());
-                    }
-                });
-
+        }
 
     }
 

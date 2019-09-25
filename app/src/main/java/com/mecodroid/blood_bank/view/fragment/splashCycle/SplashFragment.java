@@ -1,7 +1,6 @@
 package com.mecodroid.blood_bank.view.fragment.splashCycle;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +12,14 @@ import android.view.ViewGroup;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mecodroid.blood_bank.R;
+import com.mecodroid.blood_bank.view.activity.HomeActivity;
 import com.mecodroid.blood_bank.view.activity.RegsteratinAndLoginActivity;
 
+import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
+import static com.mecodroid.blood_bank.helper.BloodBankConatants.REMEMBER_USER;
 import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
+import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadBoolean;
+import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.isFirstTimeLaunch;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.setFirstTimeLaunch;
 
@@ -54,17 +58,21 @@ public class SplashFragment extends Fragment {
                 }
             }, SPLASH_TIME_OUT);
 
-        }catch (Exception e){
-            Snackbar.make(null,e.getMessage(),Snackbar.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Snackbar.make(null, e.getMessage(), Snackbar.LENGTH_SHORT).show();
         }
 
         return splahFragment;
     }
 
     private void launchHomeScreen() {
-        setFirstTimeLaunch(getActivity(),false);
-        startActivity(new Intent(getActivity(), RegsteratinAndLoginActivity.class));
-        ((Activity) getActivity()).overridePendingTransition(0, 0);
+        setFirstTimeLaunch(getActivity(), false);
+        if (LoadStringData(getActivity(), API_TOKEN) != null && LoadBoolean(getActivity(), REMEMBER_USER)) {
+            startActivity(new Intent(getActivity(), HomeActivity.class));
+        } else {
+            startActivity(new Intent(getActivity(), RegsteratinAndLoginActivity.class));
+            getActivity().overridePendingTransition(0, 0);
+        }
     }
 
 

@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.mecodroid.blood_bank.R;
-import com.mecodroid.blood_bank.adapter.articlesAdapter.RecyclerArticlesHomeAdapter;
+import com.mecodroid.blood_bank.adapter.articlesAdapter.RecyclerArticlesAdapter;
 import com.mecodroid.blood_bank.adapter.onEndless.OnEndless;
 import com.mecodroid.blood_bank.data.api.ApiServer;
 import com.mecodroid.blood_bank.data.model.categories.Categories;
@@ -58,6 +58,7 @@ public class ArticlesFragment extends BaseFragment {
 
     public boolean backFromFavourites;
     public boolean favourites = false;
+
     @BindView(R.id.articles_fragment_im_search)
     ImageButton articlesFragmentImSearch;
     @BindView(R.id.articles_fragment_edit_search)
@@ -88,7 +89,7 @@ public class ArticlesFragment extends BaseFragment {
     private ApiServer apiServer;
     private ArrayList<PostData> postsArrayList;
     private ArrayList<GeneralModel> categoriesArrayList;
-    private RecyclerArticlesHomeAdapter articlesAdapterRecycler;
+    private RecyclerArticlesAdapter articlesAdapterRecycler;
     private int maxPage = 0;
     private OnEndless onEndless;
     private Integer category_type_id;
@@ -104,7 +105,9 @@ public class ArticlesFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initFragment();
+        if (favourites) {
+            initFragment();
+        }
         setUpHomeActivity();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_articles, container, false);
@@ -137,7 +140,7 @@ public class ArticlesFragment extends BaseFragment {
 
                 postsArrayList = new ArrayList<>();
 
-                articlesAdapterRecycler = new RecyclerArticlesHomeAdapter(getActivity(), postsArrayList,
+                articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList,
                         favourites, articlesFragmentTxtNoItems);
                 articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
 
@@ -197,7 +200,7 @@ public class ArticlesFragment extends BaseFragment {
             }
         };
         articlesFragmentRvPosts.addOnScrollListener(onEndless);
-        articlesAdapterRecycler = new RecyclerArticlesHomeAdapter(getActivity(),
+        articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(),
                 postsArrayList, favourites, articlesFragmentTxtNoItems);
         articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
 
@@ -272,7 +275,7 @@ public class ArticlesFragment extends BaseFragment {
                         maxPage = 0;
 
                         postsArrayList = new ArrayList<>();
-                        articlesAdapterRecycler = new RecyclerArticlesHomeAdapter(getActivity(), postsArrayList,
+                        articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList,
                                 favourites, articlesFragmentTxtNoItems);
                         articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
                         getPosts(1);
@@ -287,7 +290,7 @@ public class ArticlesFragment extends BaseFragment {
                     onEndless.totalItemCount = 0;
                     maxPage = 0;
                     postsArrayList = new ArrayList<>();
-                    articlesAdapterRecycler = new RecyclerArticlesHomeAdapter(getActivity(), postsArrayList,
+                    articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList,
                             favourites, articlesFragmentTxtNoItems);
                     articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
 
@@ -354,7 +357,7 @@ public class ArticlesFragment extends BaseFragment {
                                 maxPage = 0;
 
                                 postsArrayList = new ArrayList<>();
-                                articlesAdapterRecycler = new RecyclerArticlesHomeAdapter(getActivity(), postsArrayList, favourites, articlesFragmentTxtNoItems);
+                                articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList, favourites, articlesFragmentTxtNoItems);
                                 articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
 
                             }

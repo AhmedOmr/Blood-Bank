@@ -82,12 +82,38 @@
     </LinearLayout>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/donation_requests_fragment_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/donation_requests_fragment_srl_donations_list_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gra"
-        android:layout_below="@+id/donation_requests_fragment_lin1"
-        android:layout_marginTop="@dimen/dim_1" />
+        android:layout_below="@id/donation_requests_fragment_lin1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/donation_requests_fragment_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dim_m"
+                android:layout_marginTop="@dimen/dim_m"
+                android:layout_marginEnd="@dimen/dim_m" />
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/donation_requests_fragment_txt_no_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/no_results"
+        android:textColor="@color/thick_blue"
+        android:textSize="@dimen/font_20"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
    </RelativeLayout>

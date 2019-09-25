@@ -1,14 +1,12 @@
 package com.mecodroid.blood_bank.view.fragment.navCycle;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.adapter.gridViewAdapter.AdapterGridView;
@@ -32,8 +30,11 @@ import retrofit2.Response;
 
 import static com.mecodroid.blood_bank.data.api.RetrfitClient.getClient;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
-import static com.mecodroid.blood_bank.helper.HelperMethod.ToolBar;
+import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
+import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
+import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
+import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
 
 public class SettingNotificationFragment extends BaseFragment {
@@ -59,6 +60,7 @@ public class SettingNotificationFragment extends BaseFragment {
     private List<GeneralModel> bloodTypeGeneratedModelArrayList = new ArrayList<>();
     private List<Integer> idBloodType;
     private List<Integer> idGovernorates;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,7 +95,7 @@ public class SettingNotificationFragment extends BaseFragment {
     //get DataNotifyPage and Governorates
     public void getDataBloodTypeAndGovernorates() {
         // get  PaginationData governorates
-        // showProgressDialog(getActivity(), getResources().getString(R.string.loading));
+        showProgressDialog(getActivity(), getResources().getString(R.string.loading));
         apiServer.getNotificationsSettings(LoadStringData(getActivity(), API_TOKEN))
                 .enqueue(new Callback<NotificationsSettings>() {
                     @Override
@@ -101,6 +103,7 @@ public class SettingNotificationFragment extends BaseFragment {
                         dismissProgressDialog();
                         try {
                             if (response.body().getStatus() == 1) {
+                                dismissProgressDialog();
                                 for (int i = 0; i < response.body().getNotificationsSettingsData().getBloodTypes().size(); i++) {
                                     idBloodType.add(Integer.valueOf(response.body().getNotificationsSettingsData().getBloodTypes().get(i)));
                                 }
@@ -111,6 +114,7 @@ public class SettingNotificationFragment extends BaseFragment {
                                 BloodTypes();
                                 // get data Governorate
                                 Governorate();
+                                dismissProgressDialog();
                             }
 
                         } catch (Exception e) {
@@ -185,13 +189,6 @@ public class SettingNotificationFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-
     @OnClick(R.id.setting_notification_fragment_btn_save)
     public void onViewClicked() {
         //showProgressDialog(getActivity(), getResources().getString(R.string.loading));
@@ -205,10 +202,10 @@ public class SettingNotificationFragment extends BaseFragment {
                         dismissProgressDialog();
                         try {
                             if (response.body().getStatus() == 1) {
-                                Toast.makeText(getActivity(), "Msg" + response.body().getMsg(), Toast.LENGTH_SHORT).show();
+                                customMassageDone(getActivity(), response.body().getMsg());
                             } else {
                                 dismissProgressDialog();
-                                Toast.makeText(getActivity(), "Status" + response.body().getStatus(), Toast.LENGTH_SHORT).show();
+                                customMassageError(getActivity(), response.body().getMsg());
                             }
                         } catch (Exception e) {
                             dismissProgressDialog();
@@ -224,9 +221,17 @@ public class SettingNotificationFragment extends BaseFragment {
                 });
     }
 
-
     @Override
     public void onBack() {
-        super.onBack();
+        setUpHomeActivity();
+        ReplaceFragment(getActivity().getSupportFragmentManager(), homeActivity.homeFragment
+                , R.id.content_home_replace, null, null);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

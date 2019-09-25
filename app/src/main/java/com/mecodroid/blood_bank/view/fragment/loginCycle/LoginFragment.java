@@ -21,7 +21,6 @@ import com.mecodroid.blood_bank.data.api.ApiServer;
 import com.mecodroid.blood_bank.data.api.RetrfitClient;
 import com.mecodroid.blood_bank.data.model.login.Login;
 import com.mecodroid.blood_bank.view.activity.HomeActivity;
-import com.mecodroid.blood_bank.view.activity.SplashSliderActivity;
 import com.mecodroid.blood_bank.view.fragment.BaseFragment;
 
 import butterknife.BindView;
@@ -46,7 +45,7 @@ import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
-import static com.mecodroid.blood_bank.helper.HelperMethod.isNetworkConnected;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadBoolean;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
@@ -118,10 +117,8 @@ public class LoginFragment extends BaseFragment {
 
     // remember me
     private void rememberUser() {
-        // store the status of check box
-        LoadBoolean(getActivity(), REMEMBER_USER, loginFragmentChBoxRemember.isChecked());
         // check the status of check box
-        if (LoadBoolean(getActivity(), REMEMBER_USER, true)) {
+        if (LoadBoolean(getActivity(), REMEMBER_USER)) {
             loginFragmentChBoxRemember.setChecked(true);
             loginFragmentEtPhone.setText(LoadStringData(getActivity(), PHONE));
             loginFragmentEtPassword.setText(LoadStringData(getActivity(), PASSWORD));
@@ -164,56 +161,54 @@ public class LoginFragment extends BaseFragment {
     // Log in
     private void logIn(String phone, final String password) {
         // check internet
-        boolean check_network = isNetworkConnected(getActivity(), getView());
-        if (check_network == false) {
-            return;
-        }
-        showProgressDialog(getActivity(), getResources().getString(R.string.logging_in));
-        apiServer.addLogin(phone, password).enqueue(new Callback<Login>() {
-            @Override
-            public void onResponse(Call<Login> call, Response<Login> response) {
-                dismissProgressDialog();
-                try {
-                    if (response.body() != null) {
-                        if (response.body().getStatus() == 1) {
-                            String apiToken = response.body().getData().getApiToken();
-                            String name = response.body().getData().getClient().getName();
-                            String email = response.body().getData().getClient().getEmail();
-                            String phone = response.body().getData().getClient().getPhone();
-                            String birthDate = response.body().getData().getClient().getBirthDate();
-                            String donationLastDate = response.body().getData().getClient().getDonationLastDate();
-                            String bloodType = String.valueOf(response.body().getData().getClient().getBloodType());
-                            String cityId = String.valueOf(response.body().getData().getClient().getCity());
-
-                            saveData(apiToken, name, email, phone, birthDate, donationLastDate,
-                                    cityId, bloodType, password);
-
-                            Intent logIntent = new Intent(getActivity(), HomeActivity.class);
-                            startActivity(logIntent);
-
-                            customMassageDone(getActivity(), response.body().getMsg());
-
-                        } else if (response.body().getStatus() != 1) {
-                            dismissProgressDialog();
-                            customMassageError(getActivity(), response.body().getMsg());
-
-                        }
-                    }
-                } catch (Exception e) {
+        if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getResources().getString(R.string.logging_in));
+            apiServer.addLogin(phone, password).enqueue(new Callback<Login>() {
+                @Override
+                public void onResponse(Call<Login> call, Response<Login> response) {
                     dismissProgressDialog();
-                    customMassageError(getActivity(), e.getMessage());
+                    try {
+                        if (response.body() != null) {
+                            if (response.body().getStatus() == 1) {
+                                String apiToken = response.body().getData().getApiToken();
+                                String name = response.body().getData().getClient().getName();
+                                String email = response.body().getData().getClient().getEmail();
+                                String phone = response.body().getData().getClient().getPhone();
+                                String birthDate = response.body().getData().getClient().getBirthDate();
+                                String donationLastDate = response.body().getData().getClient().getDonationLastDate();
+                                String bloodType = String.valueOf(response.body().getData().getClient().getBloodType());
+                                String cityId = String.valueOf(response.body().getData().getClient().getCity());
+
+                                saveData(apiToken, name, email, phone, birthDate, donationLastDate,
+                                        cityId, bloodType, password);
+                                SaveData(getActivity(), REMEMBER_USER, loginFragmentChBoxRemember.isChecked());
+
+                                customMassageDone(getActivity(), response.body().getMsg());
+
+                                Intent logIntent = new Intent(getActivity(), HomeActivity.class);
+                                startActivity(logIntent);
+                                getActivity().finish();
+
+                            } else if (response.body().getStatus() != 1) {
+                                customMassageError(getActivity(), response.body().getMsg());
+                            }
+                        }
+                    } catch (Exception e) {
+                        customMassageError(getActivity(), e.getMessage());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Login> call, Throwable t) {
+                    dismissProgressDialog();
+                    customMassageError(getActivity(), t.getMessage());
 
                 }
-            }
+            });
+        } else {
 
-            @Override
-            public void onFailure(Call<Login> call, Throwable t) {
-                dismissProgressDialog();
-                customMassageError(getActivity(), t.getMessage());
-
-            }
-        });
-
+        }
     }
 
     // save data of all client

@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.helper.GPSTracker;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -107,7 +108,7 @@ public class DontaionRequestContentMapActivity extends FragmentActivity implemen
         // Add a marker in Sydney and move the camera
         LatLng locLatlang = new LatLng(latitudePoint, longitudePoint);
         mMap.addMarker(new MarkerOptions().position(locLatlang).title("Patient Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locLatlang,13.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locLatlang, 520));
 
     }
 

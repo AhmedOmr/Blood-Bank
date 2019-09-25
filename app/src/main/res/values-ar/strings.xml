@@ -97,7 +97,7 @@
     <string name="select_govern">اختر المحافظة</string>
     <string name="update">تحديث البيانات</string>
     <string name="waiit">انتظر</string>
-    <string name="logout">تسجيل الخروج</string>
+    <string name="logout">هل تريد تسجيل الخروج؟</string>
     <string name="notification">الإشعارات</string>
     <string name="setting_notify">إعدادات الإشعارات</string>
     <string name="suceess">تم بنجاح</string>
@@ -107,8 +107,13 @@
     <string name="logging_in">جاري تسجيل الدخول </string>
     <string name="creating_account">جاري إنشاء الحساب</string>
     <string name="code_was_sent"> سوف تم إرسال الكود علي الإيميل </string>
-    <string name="no_results">No Results</string>
-    <string name="no_items">No items</string>
-    <string name="remove_from_favourite">Remove from favourite</string>
-    <string name="add_to_favourite">Add to favourite</string>
+    <string name="no_results">لا توجد نتائج مشابهة</string>
+    <string name="no_items">لا توجد عناصر </string>
+    <string name="remove_from_favourite"> تم الحذف من المفضلة </string>
+    <string name="add_to_favourite">تم الإضافة من المفضلة</string>
+    <string name="invalid_address">عنوان غير صالح</string>
+    <string name="sucess_add">تم إضافة الطلب بنجاح</string>
+    <string name="send_Req">إرسال الطلب</string>
+    <string name="no_notificaation">لا توجد إشعارات الآن</string>
+
 </resources>

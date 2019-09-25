@@ -31,6 +31,10 @@ public class Vaildation {
         return password.length() >= 3 && !TextUtils.isEmpty(password);
     }
 
+    public static boolean isValidContent(String content) {
+
+        return !TextUtils.isEmpty(content);
+    }
     public static boolean isIdenticalPassword(String passwordConfirm, String fullConfirmPassword) {
 
         return passwordConfirm.equals(fullConfirmPassword) && !TextUtils.isEmpty(passwordConfirm)

@@ -56,6 +56,8 @@ public class HomeFragment extends BaseFragment {
 
         setUpViewPager();
 
+        initFragment();
+
         return view;
     }
 
@@ -85,14 +87,13 @@ public class HomeFragment extends BaseFragment {
     @OnClick(R.id.ArticlesAndRequests_FloatingButton)
     public void onViewClicked() {
         CreateDonationRequestFragment createDonationRequestsFragment = new CreateDonationRequestFragment();
-        ReplaceFragment(getActivity().getSupportFragmentManager(),  createDonationRequestsFragment,
-                R.id.content_home_replace,null,null);
+        ReplaceFragment(getActivity().getSupportFragmentManager(), createDonationRequestsFragment,
+                R.id.content_home_replace, null, null);
 
     }
 
     @Override
     public void onBack() {
-        homeActivity.setVisibility(View.GONE);
-        super.onBack();
+        getActivity().finish();
     }
 }

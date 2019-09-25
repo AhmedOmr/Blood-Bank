@@ -4,7 +4,6 @@ package com.mecodroid.blood_bank.view.fragment.HomeCycle.donationRequests;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.service.autofill.UserData;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.api.ApiServer;
@@ -40,14 +38,16 @@ import retrofit2.Response;
 
 import static com.mecodroid.blood_bank.data.api.RetrfitClient.getClient;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
-import static com.mecodroid.blood_bank.helper.HelperMethod.createSnackBar;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.disappearKeypad;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
-import static com.mecodroid.blood_bank.helper.HelperMethod.isNetworkConnected;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
+import static com.mecodroid.blood_bank.helper.Vaildation.isValidContent;
+import static com.mecodroid.blood_bank.helper.Vaildation.isValidName;
+import static com.mecodroid.blood_bank.helper.Vaildation.isValidPhone;
 import static com.mecodroid.blood_bank.view.activity.map.MapsActivity.hospital_address;
 import static com.mecodroid.blood_bank.view.activity.map.MapsActivity.latitude;
 import static com.mecodroid.blood_bank.view.activity.map.MapsActivity.longitude;
@@ -93,7 +93,8 @@ public class CreateDonationRequestFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        initFragment();
+        setUpHomeActivity();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_donation_requests, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -110,6 +111,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
         return view;
 
     }
+
     // get all blood Types
     public void getAllBloodTypes() {
         showProgressDialog(getActivity(), getResources().getString(R.string.loading));
@@ -138,14 +140,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
                         android.R.layout.simple_spinner_item, typeBlood) {
                     @Override
                     public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return position != 0;
                     }
 
                     @Override
@@ -212,14 +207,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
                         android.R.layout.simple_spinner_item, governorat) {
                     @Override
                     public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return position != 0;
                     }
 
                     @Override
@@ -290,14 +278,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
                                 android.R.layout.simple_spinner_item, cities) {
                             @Override
                             public boolean isEnabled(int position) {
-                                if (position == 0) {
-                                    // Disable the first item from Spinner
-                                    // First item will be use for hint
-
-                                    return false;
-                                } else {
-                                    return true;
-                                }
+                                return position != 0;
                             }
 
                             @Override
@@ -345,21 +326,17 @@ public class CreateDonationRequestFragment extends BaseFragment {
                 });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @OnClick({R.id.create_donation_requests_fragment_btn_create_request,
-            R.id.create_donation_requests_fragment_Iv_open_map, R.id.create_donation_requests_fragment_rl_sub_view})
+            R.id.create_donation_requests_fragment_Iv_open_map,
+            R.id.create_donation_requests_fragment_rl_sub_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_donation_requests_fragment_btn_create_request:
-                sendRequest();
+                getAllCreateDonationReqFields();
                 break;
             case R.id.create_donation_requests_fragment_Iv_open_map:
-
+                createDonationRequestsFragmentEtHospitalAddress.setError(null);
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
                 startActivity(intent);
 
@@ -371,7 +348,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
         }
     }
 
-    private void sendRequest() {
+    private void getAllCreateDonationReqFields() {
         String patient_name = createDonationRequestsFragmentEtName.getText().toString().trim();
         String patient_age = createDonationRequestsFragmentEtAge.getText().toString().trim();
         String bags_num = createDonationRequestsFragmentEtNumbers.getText().toString().trim();
@@ -380,38 +357,59 @@ public class CreateDonationRequestFragment extends BaseFragment {
         String notes = createDonationRequestsFragmentEtNotes.getText().toString().trim();
         String hospitalAddress = createDonationRequestsFragmentEtHospitalAddress.getText().toString().trim();
 
-        if (hospitalAddress.isEmpty()) {
-            createDonationRequestsFragmentEtHospitalAddress.setText(hospital_address);
-            createDonationRequestsFragmentEtHospitalAddress.requestFocus();
+        validCreateDonationFields(hospitalAddress, patient_name, patient_age, blood_type_id,
+                bags_num, hospital_name, startCityId, phone, notes);
+    }
 
-        }
-        if (patient_name.isEmpty()) {
+    private void validCreateDonationFields(String hospitalAddress, String patient_name,
+                                           String patient_age, String blood_type_id, String bags_num,
+                                           String hospital_name, String startCityId, String phone,
+                                           String notes) {
+
+        if (!isValidName(patient_name)) {
+            createDonationRequestsFragmentEtName.setError(getResources().getString(R.string.enterPatientName));
             createDonationRequestsFragmentEtName.requestFocus();
-
             customMassageError(getActivity(), getResources().getString(R.string.enterPatientName));
             return;
         }
-        if (patient_age.isEmpty()) {
+
+        if (!isValidContent(patient_age)) {
             createDonationRequestsFragmentEtAge.requestFocus();
+            createDonationRequestsFragmentEtAge.setError(getResources().getString(R.string.enterPatientAge));
             customMassageError(getActivity(), getResources().getString(R.string.enterPatientAge));
             return;
         }
-        if (blood_type_id.equalsIgnoreCase(null)) {
-            customMassageError(getActivity(), getResources().getString(R.string.select_blood));
 
+        if (createDonationRequestsFragmentSpBloodType.getSelectedItemPosition() == 0) {
+            customMassageError(getActivity(), getResources().getString(R.string.select_blood));
             return;
         }
-        if (bags_num.isEmpty()) {
+
+        if (!isValidContent(blood_type_id)) {
+            customMassageError(getActivity(), getResources().getString(R.string.select_blood));
+            return;
+        }
+
+        if (!isValidContent(bags_num)) {
             createDonationRequestsFragmentEtNumbers.requestFocus();
+            createDonationRequestsFragmentEtNumbers.setError(getResources().getString(R.string.enterNumBags));
             customMassageError(getActivity(), getResources().getString(R.string.enterNumBags));
 
 
             return;
         }
-        if (hospital_name.isEmpty()) {
-            createDonationRequestsFragmentEtHospitalName.requestFocus();
 
+        if (!isValidContent(hospital_name)) {
+            createDonationRequestsFragmentEtHospitalName.requestFocus();
+            createDonationRequestsFragmentEtHospitalName.setError(getResources().getString(R.string.enterHospitalName));
             customMassageError(getActivity(), getResources().getString(R.string.enterHospitalName));
+            return;
+        }
+
+        if (!isValidContent(hospitalAddress)) {
+            createDonationRequestsFragmentEtHospitalAddress.requestFocus();
+            createDonationRequestsFragmentEtHospitalAddress.setError(getResources().getString(R.string.invalid_address));
+            customMassageError(getActivity(), getResources().getString(R.string.invalid_address));
             return;
         }
 
@@ -419,68 +417,82 @@ public class CreateDonationRequestFragment extends BaseFragment {
             customMassageError(getActivity(), getResources().getString(R.string.select_govern));
             return;
         }
-        if (startCityId.equalsIgnoreCase(null)) {
+
+        if (createDonationRequestsFragmentSpCity.getSelectedItemPosition() == 0) {
             customMassageError(getActivity(), getResources().getString(R.string.select_city));
             return;
         }
 
-        if (hospitalAddress.isEmpty()) {
-            customMassageError(getActivity(), getResources().getString(R.string.enterHospitalAddress));
-
-        }
-
-        if (phone.isEmpty()) {
-            createDonationRequestsFragmentEtPhone.requestFocus();
-            customMassageError(getActivity(), getResources().getString(R.string.enterPhone));
-            return;
-        }
-        if (phone.length() != 11) {
-            createDonationRequestsFragmentEtPhone.requestFocus();
-            customMassageError(getActivity(), getResources().getString(R.string.phoneLength));
+        if (!isValidContent(startCityId)) {
+            customMassageError(getActivity(), getResources().getString(R.string.select_city));
             return;
         }
 
-        if (notes.isEmpty()) {
+        if (!isValidPhone(phone)) {
+            createDonationRequestsFragmentEtPhone.requestFocus();
+            createDonationRequestsFragmentEtPhone.setError(getResources().getString(R.string.invalid_phone));
+            customMassageError(getActivity(), getResources().getString(R.string.invalid_phone));
+            return;
+        }
 
+        if (!isValidContent(notes)) {
             createDonationRequestsFragmentEtNotes.requestFocus();
+            createDonationRequestsFragmentEtNotes.setError(getResources().getString(R.string.enterNotes));
             customMassageError(getActivity(), getResources().getString(R.string.enterNotes));
             return;
         }
-        boolean check_network = isNetworkConnected(getActivity(), getView());
-        if (check_network == true) {
 
+        sendDonationRequest(hospitalAddress, patient_name, patient_age,
+                blood_type_id, bags_num, hospital_name, startCityId, phone, notes);
+
+    }
+
+
+    private void sendDonationRequest(String hospitalAddress, String patient_name,
+                                     String patient_age, String blood_type_id, String bags_num,
+                                     String hospital_name, String startCityId, String phone,
+                                     String notes) {
+        if (isConnected(getActivity())) {
             showProgressDialog(getActivity(), getResources().getString(R.string.loading));
             apiServer.CreateDonationRequests(LoadStringData(getActivity(), API_TOKEN),
                     patient_name, patient_age, blood_type_id, bags_num, hospital_name,
                     hospitalAddress, startCityId, phone, notes, latitude, longitude).
                     enqueue(new Callback<DonationRequestsCreate>() {
-                @Override
-                public void onResponse(Call<DonationRequestsCreate> call, Response<DonationRequestsCreate> response) {
-                    dismissProgressDialog();
-
-                    try {
-                        if (response.body().getStatus() == 1) {
-                            customMassageDone(getActivity(), response.body().getMsg());
-
-
-                        } else {
+                        @Override
+                        public void onResponse(Call<DonationRequestsCreate> call,
+                                               Response<DonationRequestsCreate> response) {
                             dismissProgressDialog();
-                            customMassageError(getActivity(), response.body().getMsg());
+
+                            try {
+                                if (response.body().getStatus() == 1) {
+                                    customMassageDone(getActivity(), getResources().getString(R.string.sucess_add));
+                                    createDonationRequestsFragmentEtHospitalName.setText("");
+                                    createDonationRequestsFragmentEtName.setText("");
+                                    createDonationRequestsFragmentEtAge.setText("");
+                                    createDonationRequestsFragmentEtHospitalAddress.setText("");
+                                    createDonationRequestsFragmentEtNotes.setText("");
+                                    createDonationRequestsFragmentEtNumbers.setText("");
+                                    createDonationRequestsFragmentEtPhone.setText("");
+                                    createDonationRequestsFragmentSpGovernment.setSelection(0);
+                                    createDonationRequestsFragmentSpBloodType.setSelection(0);
+
+                                } else {
+                                    dismissProgressDialog();
+                                    customMassageError(getActivity(), response.body().getMsg());
+                                }
+                            } catch (Exception e) {
+
+                            }
+
+
                         }
-                    } catch (Exception e) {
 
-                    }
-
-
-                }
-
-                @Override
-                public void onFailure(Call<DonationRequestsCreate> call, Throwable t) {
-                    dismissProgressDialog();
-
-                    customMassageError(getActivity(), t.getMessage());
-                }
-            });
+                        @Override
+                        public void onFailure(Call<DonationRequestsCreate> call, Throwable t) {
+                            dismissProgressDialog();
+                            customMassageError(getActivity(), t.getMessage());
+                        }
+                    });
 
 
         } else {
@@ -493,7 +505,18 @@ public class CreateDonationRequestFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         createDonationRequestsFragmentEtHospitalAddress.setText(hospital_address);
+        createDonationRequestsFragmentEtHospitalAddress.setError(null);
     }
 
+    @Override
+    public void onBack() {
+        super.onBack();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }
 

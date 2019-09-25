@@ -8,6 +8,7 @@ import com.mecodroid.blood_bank.data.model.donationRequestCreate.DonationRequest
 import com.mecodroid.blood_bank.data.model.donationRequestNotifications.DonationRequestNotifications;
 import com.mecodroid.blood_bank.data.model.donationRequests.DonationRequests;
 import com.mecodroid.blood_bank.data.model.favourite.FavouriteModel;
+import com.mecodroid.blood_bank.data.model.generalResponse.GeneralResponse;
 import com.mecodroid.blood_bank.data.model.governorates.Governorates;
 import com.mecodroid.blood_bank.data.model.login.Login;
 import com.mecodroid.blood_bank.data.model.newpassword.NewPassword;
@@ -171,19 +172,16 @@ public interface ApiServer {
     Call<NotificationsCount> getNotificationsCount(@Query("api_token") String api_token);
 
 
-
-    @POST("register-token")
-    @FormUrlEncoded
-    Call<Register>RegisterToken(@Field("token") String token,
-                                @Field("api_token") String api_token,
-                                @Field("type") String type);
-
     @POST("remove-token")
     @FormUrlEncoded
-    Call<Register>RemoveToken(@Field("token") String token,
-                              @Field("api_token") String api_token);
+    Call<GeneralResponse> RemoveToken(@Field("token") String token,
+                                      @Field("api_token") String api_token);
 
-
+    @POST("signup-token")
+    @FormUrlEncoded
+    Call<GeneralResponse> getRegisterNotificationToken(@Field("token") String token,
+                                                       @Field("api_token") String api_token,
+                                                       @Field("type") String platform);
     @GET("settings")
     Call<Setting> getSettings(@Query("api_token") String api_token);
 

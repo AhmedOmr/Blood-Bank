@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
@@ -37,6 +36,7 @@ import static com.mecodroid.blood_bank.data.api.RetrfitClient.getClient;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
 import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
+import static com.mecodroid.blood_bank.helper.HelperMethod.registerNotificationToken;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
 
 public class HomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,8 +58,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     ImageView homeNavigationActivityIvNotification;
     @BindView(R.id.home_navigation_activity_tv_notificationCount)
     TextView homeNavigationActivityTvNotificationCount;
-    @BindView(R.id.toolbar)
-    RelativeLayout toolbar;
     ApiServer apiServer;
 
     @Override
@@ -69,29 +67,38 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind(this);
 
         StatusBarUtil.setColorForDrawerLayout(HomeActivity.this, drawer, getResources().getColor(R.color.thick_blue));
-        homeFragment = new HomeFragment();
         apiServer = getClient().create(ApiServer.class);
+
+        try {
+            //Call regesiter notification
+            registerNotificationToken(apiServer, HomeActivity.this);
+        } catch (Exception e) {
+            customMassageError(HomeActivity.this, e.getMessage());
+
+        }
+        homeFragment = new HomeFragment();
         ReplaceFragment(getSupportFragmentManager(), homeFragment
                 , R.id.content_home_replace, null, null);
 
-        ImageView imageView = (ImageView) findViewById(R.id.nav_menu);
+
+        ImageView imageView = findViewById(R.id.nav_menu);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 drawer.openDrawer(GravityCompat.START);
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getNotificationsCount();
 
@@ -183,7 +190,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         item.setChecked(true);
 
         drawer.closeDrawer(GravityCompat.START);

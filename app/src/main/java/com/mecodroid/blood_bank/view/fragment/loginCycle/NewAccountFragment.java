@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.jaeger.library.StatusBarUtil;
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.api.ApiServer;
@@ -27,9 +27,11 @@ import com.mecodroid.blood_bank.data.model.register.RegisterData;
 import com.mecodroid.blood_bank.helper.DateModel;
 import com.mecodroid.blood_bank.view.activity.HomeActivity;
 import com.mecodroid.blood_bank.view.fragment.BaseFragment;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,6 +39,7 @@ import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.BIRTH_DATE;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.BLOOD_TYPE;
@@ -46,12 +49,13 @@ import static com.mecodroid.blood_bank.helper.BloodBankConatants.EMAIL;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.GOV_NAME;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.PASSWORD;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.PHONE;
+import static com.mecodroid.blood_bank.helper.BloodBankConatants.REMEMBER_USER;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.USER_NAME;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.disappearKeypad;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
-import static com.mecodroid.blood_bank.helper.HelperMethod.isNetworkConnected;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isRTL;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showCalender;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
@@ -165,14 +169,7 @@ public class NewAccountFragment extends BaseFragment {
                         android.R.layout.simple_spinner_item, typeBlood) {
                     @Override
                     public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return position != 0;
                     }
 
                     @Override
@@ -241,14 +238,7 @@ public class NewAccountFragment extends BaseFragment {
                         android.R.layout.simple_spinner_item, governorat) {
                     @Override
                     public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return position != 0;
                     }
 
                     @Override
@@ -321,14 +311,7 @@ public class NewAccountFragment extends BaseFragment {
                                 android.R.layout.simple_spinner_item, cities) {
                             @Override
                             public boolean isEnabled(int position) {
-                                if (position == 0) {
-                                    // Disable the first item from Spinner
-                                    // First item will be use for hint
-
-                                    return false;
-                                } else {
-                                    return true;
-                                }
+                                return position != 0;
                             }
 
                             @Override
@@ -381,6 +364,7 @@ public class NewAccountFragment extends BaseFragment {
             R.id.new_account_fragment_txt_last_date_donation,
             R.id.new_account_fragment_btn_signup})
     public void onViewClicked(View view) {
+        disappearKeypad(getActivity(), getView());
         try {
             switch (view.getId()) {
 
@@ -486,65 +470,66 @@ public class NewAccountFragment extends BaseFragment {
     // create new Account
     private void signUp(String name, String email, String birth_date, String phone,
                         String donation_last_date, final String password, String password_confirmation) {
-        boolean check_network = isNetworkConnected(getActivity(), getView());
-        if (check_network == false) {
-            return;
-        }
-        showProgressDialog(getActivity(), getResources().getString(R.string.creating_account));
-        apiServer.
-                addNewAcount(name, email, birth_date, startCityId, phone, donation_last_date, password, password_confirmation, blood_type_id)
-                .enqueue(new Callback<Register>() {
-                    @Override
-                    public void onResponse(Call<Register> call, Response<Register> response) {
-                        dismissProgressDialog();
-                        disappearKeypad(getActivity(),getView());
-                        try {
-                            if (response.body().getStatus() == 1) {
-                                RegisterData dataRegister = response.body().getRegisterData();
-                                String apiToken = dataRegister.getApiToken();
-                                String name = dataRegister.getClient().getName();
-                                String email = dataRegister.getClient().getEmail();
-                                String phone = dataRegister.getClient().getPhone();
-                                String birthDate = dataRegister.getClient().getBirthDate();
-                                String donationLastDate = dataRegister.getClient().getDonationLastDate();
-                                String cityId = String.valueOf(dataRegister.getClient().getCityId());
-                                String governorateId = dataRegister.getClient().getCity().getGovernorateId();
+        if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getResources().getString(R.string.creating_account));
+            apiServer.
+                    addNewAcount(name, email, birth_date, startCityId, phone, donation_last_date, password, password_confirmation, blood_type_id)
+                    .enqueue(new Callback<Register>() {
+                        @Override
+                        public void onResponse(Call<Register> call, Response<Register> response) {
+                            dismissProgressDialog();
 
-                                SaveData(getActivity(), API_TOKEN, apiToken);
-                                SaveData(getActivity(), USER_NAME, name);
-                                SaveData(getActivity(), EMAIL, email);
-                                SaveData(getActivity(), PHONE, phone);
-                                SaveData(getActivity(), BIRTH_DATE, birthDate);
-                                SaveData(getActivity(), DONATION_LAST_DATE, donationLastDate);
-                                SaveData(getActivity(), CITY_ID, cityId);
-                                SaveData(getActivity(), GOV_NAME, governorateId);
+                            try {
+                                if (response.body().getStatus() == 1) {
+                                    RegisterData dataRegister = response.body().getRegisterData();
+                                    String apiToken = dataRegister.getApiToken();
+                                    String name = dataRegister.getClient().getName();
+                                    String email = dataRegister.getClient().getEmail();
+                                    String phone = dataRegister.getClient().getPhone();
+                                    String birthDate = dataRegister.getClient().getBirthDate();
+                                    String donationLastDate = dataRegister.getClient().getDonationLastDate();
+                                    String cityId = String.valueOf(dataRegister.getClient().getCityId());
+                                    String governorateId = dataRegister.getClient().getCity().getGovernorateId();
 
-                                SaveData(getActivity(), BLOOD_TYPE, blood_type_id);
-                                SaveData(getActivity(), PASSWORD, password);
+                                    SaveData(getActivity(), API_TOKEN, apiToken);
+                                    SaveData(getActivity(), USER_NAME, name);
+                                    SaveData(getActivity(), EMAIL, email);
+                                    SaveData(getActivity(), PHONE, phone);
+                                    SaveData(getActivity(), BIRTH_DATE, birthDate);
+                                    SaveData(getActivity(), DONATION_LAST_DATE, donationLastDate);
+                                    SaveData(getActivity(), CITY_ID, cityId);
+                                    SaveData(getActivity(), GOV_NAME, governorateId);
 
-                                startActivity(new Intent(getActivity(), HomeActivity.class));
+                                    SaveData(getActivity(), BLOOD_TYPE, blood_type_id);
+                                    SaveData(getActivity(), PASSWORD, password);
 
-                                customMassageDone(getActivity(), response.body().getMsg());
+                                    SaveData(getActivity(), REMEMBER_USER, true);
 
-                            } else {
-                                dismissProgressDialog();
-                                customMassageError(getActivity(), response.body().getMsg());
+                                    customMassageDone(getActivity(), response.body().getMsg());
+
+                                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                                    getActivity().finish();
+
+                                } else {
+                                    customMassageError(getActivity(), response.body().getMsg());
+                                }
+
+                            } catch (Exception e) {
+                                customMassageError(getActivity(), e.getMessage());
                             }
 
-                        } catch (Exception e) {
-                            dismissProgressDialog();
-                            customMassageError(getActivity(), e.getMessage());
                         }
 
-                    }
+                        @Override
+                        public void onFailure(Call<Register> call, Throwable t) {
+                            dismissProgressDialog();
+                            customMassageError(getActivity(), t.getMessage());
 
-                    @Override
-                    public void onFailure(Call<Register> call, Throwable t) {
-                        dismissProgressDialog();
-                        customMassageError(getActivity(), t.getMessage());
+                        }
+                    });
+        } else {
 
-                    }
-                });
+        }
     }
 
 

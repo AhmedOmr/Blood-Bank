@@ -115,12 +115,11 @@
     <string name="numbers">Number of bags</string>
     <string name="chooseloc">Choose Location</string>
     <string name="age_1">Age</string>
-    <string name="logout">Log out</string>
+    <string name="logout">Are youb sure to log out now ?</string>
     <string name="yes">yes</string>
     <string name="cancell">cancel</string>
     <string name="notification">Notifications</string>
     <string name="no_notificaation">No notification</string>
-    <string name="twaslM3na">Contuct Us</string>
     <string name="logging_in">Logging in</string>
     <string name="creating_account">Creating account</string>
     <string name="code_was_sent">The Code will sent to you in Email</string>
@@ -128,5 +127,8 @@
     <string name="no_items">No items</string>
     <string name="remove_from_favourite">Remove from favourite</string>
     <string name="add_to_favourite">Add to favourite</string>
+    <string name="invalid_address">Invalid Address</string>
+    <string name="sucess_add">Donation Request was adding successful</string>
+    <string name="send_Req">Send Request Donation</string>
 
 </resources>

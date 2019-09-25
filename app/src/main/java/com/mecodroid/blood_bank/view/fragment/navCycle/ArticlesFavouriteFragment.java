@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mecodroid.blood_bank.R;
-import com.mecodroid.blood_bank.adapter.articlesAdapter.RecyclerArticlesHomeAdapter;
+import com.mecodroid.blood_bank.adapter.articlesAdapter.RecyclerArticlesAdapter;
 import com.mecodroid.blood_bank.data.api.ApiServer;
 import com.mecodroid.blood_bank.data.model.posts.PostData;
 import com.mecodroid.blood_bank.data.model.posts.Posts;
@@ -40,7 +40,7 @@ public class ArticlesFavouriteFragment extends BaseFragment {
     RecyclerView articlesFavouriteFragmentRvPosts;
 
     Unbinder unbinder;
-    private RecyclerArticlesHomeAdapter articlesAdapterRecycler;
+    private RecyclerArticlesAdapter articlesAdapterRecycler;
 
     private ApiServer apiServer;
     private View view;
@@ -90,7 +90,7 @@ public class ArticlesFavouriteFragment extends BaseFragment {
 
                             articlesFavouriteFragmentRvPosts.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                            articlesAdapterRecycler = new RecyclerArticlesHomeAdapter(postsArrayList, getActivity());
+                            articlesAdapterRecycler = new RecyclerArticlesAdapter(postsArrayList, getActivity());
                             articlesFavouriteFragmentRvPosts.setAdapter(articlesAdapterRecycler);
                             articlesAdapterRecycler.notifyDataSetChanged();
 

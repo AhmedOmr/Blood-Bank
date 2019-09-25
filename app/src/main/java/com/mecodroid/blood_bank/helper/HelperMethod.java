@@ -16,11 +16,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -36,11 +33,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.api.ApiServer;
 import com.mecodroid.blood_bank.data.model.donationRequestNotifications.DonationRequestNotifications;
+import com.mecodroid.blood_bank.data.model.generalResponse.GeneralResponse;
 import com.mecodroid.blood_bank.data.model.notifications_count.NotificationsCount;
-import com.mecodroid.blood_bank.data.model.register.Register;
 import com.mecodroid.blood_bank.view.activity.HomeActivity;
 import com.mecodroid.blood_bank.view.fragment.HomeCycle.donationRequests.DonationRequestContentFragment;
-import com.mecodroid.blood_bank.view.fragment.navCycle.NotificationsFragment;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -212,10 +208,10 @@ public class HelperMethod {
 
         toastLayout.setBackgroundColor(getColorWithAlpha(Color.RED, 0.7f));
 
-        TextView header = (TextView) toastLayout.findViewById(R.id.toast_header);
+        TextView header = toastLayout.findViewById(R.id.toast_header);
         header.setText(title);
 
-        ImageView body = (ImageView) toastLayout.findViewById(R.id.toast_body);
+        ImageView body = toastLayout.findViewById(R.id.toast_body);
         body.setImageResource(R.drawable.err_36);
 
         Toast toast = new Toast(activity);
@@ -234,10 +230,10 @@ public class HelperMethod {
         toastLayout.setBackground(activity.getResources().getDrawable(R.drawable.shape_toast));
         //toastLayout.setBackgroundColor(getColorWithAlpha(Color.RED, 0.7f));
 
-        TextView header = (TextView) toastLayout.findViewById(R.id.toast_header);
+        TextView header = toastLayout.findViewById(R.id.toast_header);
         header.setText(title);
 
-        ImageView body = (ImageView) toastLayout.findViewById(R.id.toast_body);
+        ImageView body = toastLayout.findViewById(R.id.toast_body);
         body.setImageResource(R.drawable.done_24);
 
         Toast toast = new Toast(activity);
@@ -270,29 +266,21 @@ public class HelperMethod {
     }
 
     // check internet
-    public static boolean isNetworkConnected(Context context, View view) {
-         cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null && ni.isConnected()) {
-            return true;
-        } else {
-            Snackbar.make(view, context.getString(R.string.no_internet), Snackbar.LENGTH_LONG).show();
-            return false;
-
-        }
-    }
     public static boolean isConnected(Context context) {
         try {
             ConnectivityManager  cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+            return isConnected;
         } catch (NullPointerException e) {
 
         }
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        return isConnected;
+        return false;
     }
-    // tool bar
+/*
+// tool bar
     public static void ToolBar(final FragmentManager supportFragmentManager, final Activity activity, Toolbar toolbar, String title) {
         toolbar.setTitleTextColor(activity.getResources().getColor(R.color.black));
         toolbar.setTitle(title);
@@ -337,6 +325,7 @@ public class HelperMethod {
             }
         });
     }
+    */
 
     // get Notifications Count
     public static String getNotificationsCount(final Activity activity) {
@@ -423,15 +412,32 @@ public class HelperMethod {
         }
     }
 
-    public static void removeNotificationToken(ApiServer apiServices, Activity activity) {
-        apiServices.RemoveToken(FirebaseInstanceId.getInstance().getToken(), LoadStringData(activity, API_TOKEN))
-                .enqueue(new Callback<Register>() {
+    public static void registerNotificationToken(ApiServer apiServer, Activity activity) {
+        apiServer.getRegisterNotificationToken(FirebaseInstanceId.getInstance().getToken(),
+                LoadStringData(activity, API_TOKEN), "android")
+                .enqueue(new Callback<GeneralResponse>() {
                     @Override
-                    public void onResponse(Call<Register> call, Response<Register> response) {
+                    public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+
                     }
 
                     @Override
-                    public void onFailure(Call<Register> call, Throwable t) {
+                    public void onFailure(Call<GeneralResponse> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    public static void removeNotificationToken(ApiServer apiServices, Activity activity) {
+        apiServices.RemoveToken(FirebaseInstanceId.getInstance().getToken(),
+                LoadStringData(activity, API_TOKEN))
+                .enqueue(new Callback<GeneralResponse>() {
+                    @Override
+                    public void onResponse(Call<GeneralResponse> call, Response<GeneralResponse> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<GeneralResponse> call, Throwable t) {
                     }
                 });
     }

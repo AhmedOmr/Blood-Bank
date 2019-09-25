@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/dim_l"
         android:text="@string/logout"
         android:textColor="@color/black"
-        android:textSize="@dimen/font_16" />
+        android:textSize="@dimen/font_20" />
 
     <LinearLayout
         android:layout_width="match_parent"

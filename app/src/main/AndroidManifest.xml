@@ -36,22 +36,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".view.activity.map.DontaionRequestContentMapActivity"
-            android:label="@string/title_activity_maps"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            />
-        <activity
-            android:name=".view.activity.map.MapsActivity"
-            android:label="@string/title_activity_maps"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <activity
-            android:name=".view.activity.HomeActivity"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            />
         <service
             android:name=".helper.server.MyFirebaseMessagingService"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -65,6 +49,31 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".view.activity.map.DontaionRequestContentMapActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".view.activity.map.MapsActivity"
+            android:label="@string/title_activity_maps"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".view.activity.HomeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name=".view.activity.RegsteratinAndLoginActivity"

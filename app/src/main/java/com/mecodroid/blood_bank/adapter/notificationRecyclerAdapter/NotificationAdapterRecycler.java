@@ -75,13 +75,14 @@ public class NotificationAdapterRecycler extends RecyclerView.Adapter<Notificati
         }
     }
 
-    private void setAction(ViewHolder holder, final int position) {
+    private void setAction(final ViewHolder holder, final int position) {
 
         try {
 
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    holder.notificationListAdapterIvNotificationImage.setImageResource(R.drawable.icon_un_notify);
                     getDonation(context, apiServer, notificationArraylist.get(position).getDonationRequestId(),
                             LoadStringData(context, API_TOKEN), false);
                 }

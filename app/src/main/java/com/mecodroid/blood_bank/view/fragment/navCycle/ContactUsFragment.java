@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +28,10 @@ import retrofit2.Response;
 
 import static com.mecodroid.blood_bank.data.api.RetrfitClient.getClient;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
-import static com.mecodroid.blood_bank.helper.BloodBankConatants.EMAIL;
-import static com.mecodroid.blood_bank.helper.BloodBankConatants.PHONE;
-import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
-import static com.mecodroid.blood_bank.helper.HelperMethod.ToolBar;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
-import static com.mecodroid.blood_bank.helper.HelperMethod.isNetworkConnected;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
 
@@ -86,12 +80,9 @@ public class ContactUsFragment extends BaseFragment {
     }
 
     private void getContactInfo() {
-        boolean check_network = isNetworkConnected(getActivity(), getView());
-        if (check_network == false) {
-            return;
-        }
-        showProgressDialog(getActivity(), getString(R.string.waiit));
-            apiServer.getSettings(LoadStringData(getActivity(),API_TOKEN)).enqueue(new Callback<Setting>() {
+        if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getString(R.string.waiit));
+            apiServer.getSettings(LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<Setting>() {
                 @Override
                 public void onResponse(Call<Setting> call, Response<Setting> response) {
                     dismissProgressDialog();
@@ -113,10 +104,13 @@ public class ContactUsFragment extends BaseFragment {
                 @Override
                 public void onFailure(Call<Setting> call, Throwable t) {
                     dismissProgressDialog();
-                    customMassageError(getActivity(),t.getMessage());
+                    customMassageError(getActivity(), t.getMessage());
                 }
             });
             dismissProgressDialog();
+        } else {
+
+        }
     }
 
 

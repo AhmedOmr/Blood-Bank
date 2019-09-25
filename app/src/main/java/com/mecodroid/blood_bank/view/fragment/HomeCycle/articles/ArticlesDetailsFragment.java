@@ -3,32 +3,24 @@ package com.mecodroid.blood_bank.view.fragment.HomeCycle.articles;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.model.posts.PostData;
-import com.mecodroid.blood_bank.view.activity.HomeActivity;
 import com.mecodroid.blood_bank.view.fragment.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.mecodroid.blood_bank.helper.HelperMethod.ToolBar;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
-import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.onLoadImageFromUrl;
-import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 
-
-public class ArticlesContentFragment extends BaseFragment {
+public class ArticlesDetailsFragment extends BaseFragment {
 
     @BindView(R.id.articles_content_fragment_img_post)
     ImageView articlesContentShowImg;
@@ -38,8 +30,6 @@ public class ArticlesContentFragment extends BaseFragment {
     ImageView articlesContentFavoriteImg;
     @BindView(R.id.articlesContentTxt)
     TextView articlesContentTxt;
-    @BindView(R.id.articles_content_fragment_prbar)
-    ProgressBar articlesContentLodeProgressBar;
     Unbinder unbinder;
     public PostData post;
     View view;
@@ -51,14 +41,12 @@ public class ArticlesContentFragment extends BaseFragment {
             , @Nullable Bundle savedInstanceState) {
         initFragment();
         setUpHomeActivity();
-        view = inflater.inflate(R.layout.fragment_articles_content, container, false);
+        view = inflater.inflate(R.layout.fragment_articles_details, container, false);
 
         unbinder = ButterKnife.bind(this, view);
         // add value tool bar
         homeActivity.setTitle(post.getCategory().getName());
         getDataReturnDetails();
-
-        articlesContentLodeProgressBar.setVisibility(View.GONE);
         return view;
     }
 
@@ -70,11 +58,8 @@ public class ArticlesContentFragment extends BaseFragment {
             getThumbnailFullPath = post.getThumbnailFullPath();
             getIsFavourite = post.getIsFavourite();
 
-
             articlesContentTitleTxt.setText(getTitle);
-
             articlesContentTxt.setText(getContent);
-
             // if is check once or tow
             if (getIsFavourite) {
                 // add icon favourite
@@ -82,15 +67,12 @@ public class ArticlesContentFragment extends BaseFragment {
             } else {
                 // add icon un favourite
                 articlesContentFavoriteImg.setImageResource(R.drawable.unfav_1);
-
             }
             onLoadImageFromUrl(articlesContentShowImg, getThumbnailFullPath, getActivity(), 0);
 
         } catch (Exception e) {
             customMassageError(getActivity(), "No data saved : " + e.getMessage());
         }
-
-
           }
 
 
@@ -102,7 +84,6 @@ public class ArticlesContentFragment extends BaseFragment {
 
     @Override
     public void onBack() {
-
         homeActivity.setVisibility(View.GONE);
         super.onBack();
     }

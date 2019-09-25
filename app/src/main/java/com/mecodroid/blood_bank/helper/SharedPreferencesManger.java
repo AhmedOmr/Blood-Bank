@@ -16,7 +16,7 @@ public class SharedPreferencesManger {
     public static void setSharedPreferences(Activity activity) {
         if (sharedPreferences == null) {
             sharedPreferences = activity.getSharedPreferences(
-                    "BloodBank", activity.MODE_PRIVATE);
+                    "BloodBank", Context.MODE_PRIVATE);
 
         }
     }
@@ -77,7 +77,7 @@ public class SharedPreferencesManger {
         return sharedPreferences.getInt(data_Key, 0);
     }
 
-    public static boolean LoadBoolean(Activity activity, String data_Key, boolean isCheckBox) {
+    public static boolean LoadBoolean(Activity activity, String data_Key) {
         if (sharedPreferences != null) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
         } else {

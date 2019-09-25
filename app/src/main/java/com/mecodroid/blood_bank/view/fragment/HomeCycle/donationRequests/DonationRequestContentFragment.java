@@ -6,17 +6,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.model.donationRequests.DonationData;
-import com.mecodroid.blood_bank.helper.GPSTracker;
 import com.mecodroid.blood_bank.view.activity.map.DontaionRequestContentMapActivity;
 import com.mecodroid.blood_bank.view.fragment.BaseFragment;
 
@@ -36,15 +32,14 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.CALL;
-import static com.mecodroid.blood_bank.helper.HelperMethod.ToolBar;
 import static com.mecodroid.blood_bank.helper.HelperMethod.callPermissions;
+import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DonationRequestContentFragment extends BaseFragment implements OnMapReadyCallback {
-
 
     public DonationData donationRequest;
     public boolean fromDonation;
@@ -86,9 +81,6 @@ public class DonationRequestContentFragment extends BaseFragment implements OnMa
 
     private GoogleMap map;
 
-    // GPSTracker class
-    GPSTracker gps;
-
     private LatLng frLatLng;
     private double latitude,longitude;
 
@@ -111,16 +103,9 @@ public class DonationRequestContentFragment extends BaseFragment implements OnMa
 
         getDataReturnDetails();
         donationRequestContentFragmentMap.onCreate(savedInstanceState);
-
         // map view
         MapViews();
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     private void getDataReturnDetails() {
@@ -156,63 +141,12 @@ public class DonationRequestContentFragment extends BaseFragment implements OnMa
 
     }
 
-    @OnClick({R.id.fragmentContentDonationMapBtn, R.id.donation_request_content_fragment_btn_call})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.fragmentContentDonationMapBtn:
-                Toast.makeText(getContext(), "map", Toast.LENGTH_SHORT).show();
-
-                Intent map = new Intent(getContext(), DontaionRequestContentMapActivity.class);
-                map.putExtra("latitudePoint", getlatitude);
-                map.putExtra("longitudePoint", getlongitude);
-                startActivity(map);
-
-                break;
-            case R.id.donation_request_content_fragment_btn_call:
-            makeACall();
-                break;
-        }
-    }
-
-    // call permission
-    private void makeACall() {
-        try {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE)
-                    == PackageManager.PERMISSION_GRANTED) {
-
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + phone));
-                startActivity(callIntent);
-
-            } else {
-                callPermissions(getActivity(), CALL);
-            }
-
-        } catch (Exception e) {
-            customMassageError(getActivity(), e.getMessage());
-        }
-    }
-
-
-    private void GPSTrackerS() {
-        gps = new GPSTracker(getActivity(), getActivity());
-        // Check if GPS enabled
-        if (gps.getIsGPSTrackingEnabled()) {
-
-            latitude = gps.getLatitude();
-            longitude = gps.getLongitude();
-
-            //   is for new line
-            Toast.makeText(getContext(), "Your Location is - \n Lat: "
-                    + latitude + "\n Long: " + longitude, Toast.LENGTH_LONG).show();
-
-        } else {
-            // Can't get location.
-            // GPS or network is not enabled.
-            // Ask user to enable GPS/network in settings.
-            gps.showSettingsAlert();
-        }
-
+    private void showMap() {
+        customMassageDone(getActivity(), "map");
+        Intent map = new Intent(getContext(), DontaionRequestContentMapActivity.class);
+        map.putExtra("latitudePoint", getlatitude);
+        map.putExtra("longitudePoint", getlongitude);
+        startActivity(map);
     }
 
     private void MapViews() {
@@ -236,9 +170,42 @@ public class DonationRequestContentFragment extends BaseFragment implements OnMa
         }
         map.addMarker(new MarkerOptions().position(frLatLng)).setTitle(getString(R.string.my_location));
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(frLatLng, 520));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(frLatLng, 20.0f));
 
 
+    }
+
+    // call permission
+    private void makeACall() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + phone));
+                startActivity(callIntent);
+
+            } else {
+                callPermissions(getActivity(), CALL);
+            }
+
+        } catch (Exception e) {
+            customMassageError(getActivity(), e.getMessage());
+        }
+    }
+
+    @OnClick({R.id.fragmentContentDonationMapBtn,
+            R.id.donation_request_content_fragment_btn_call})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.fragmentContentDonationMapBtn:
+                showMap();
+
+                break;
+            case R.id.donation_request_content_fragment_btn_call:
+                makeACall();
+                break;
+        }
     }
 
     @Override
@@ -258,4 +225,11 @@ public class DonationRequestContentFragment extends BaseFragment implements OnMa
         super.onPause();
         donationRequestContentFragmentMap.onPause();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 }

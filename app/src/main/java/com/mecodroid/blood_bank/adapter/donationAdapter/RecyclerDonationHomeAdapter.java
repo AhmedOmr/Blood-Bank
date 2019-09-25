@@ -41,7 +41,7 @@ public class RecyclerDonationHomeAdapter extends RecyclerView.Adapter<RecyclerDo
     Context context;
     ApiServer apiServer;
 
-    public RecyclerDonationHomeAdapter(ArrayList<DonationData> donationRequestArrayList, Context context) {
+    public RecyclerDonationHomeAdapter(Context context, ArrayList<DonationData> donationRequestArrayList) {
         this.donationRequestArrayList = donationRequestArrayList;
         this.context = context;
         apiServer = getClient().create(ApiServer.class);
