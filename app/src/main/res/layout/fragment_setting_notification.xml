@@ -19,7 +19,9 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:fontFamily="@font/cairo_semi_bold"
+                android:textSize="@dimen/font_14">
 
             </TextView>
         </LinearLayout>
@@ -44,7 +46,9 @@
                     android:layout_marginTop="@dimen/dim_8"
                     android:layout_marginBottom="@dimen/dim_8"
                     android:text="@string/blood_type"
-                    android:textColor="@color/black" />
+                    android:fontFamily="@font/cairo_semi_bold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_14" />
             </LinearLayout>
 
             <GridView
@@ -84,7 +88,9 @@
                     android:layout_marginTop="@dimen/dim_8"
                     android:layout_marginBottom="@dimen/dim_8"
                     android:text="@string/governorate"
-                    android:textColor="@color/black" />
+                    android:fontFamily="@font/cairo_semi_bold"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_14" />
             </LinearLayout>
 
             <GridView
@@ -103,9 +109,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dim_8"
-            android:background="@color/color_tab_bar_line_select"
+            android:background="@drawable/shape_edit_blue"
             android:text="@string/save"
-            android:textColor="@color/white" />
+            android:fontFamily="@font/cairo_semi_bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_14" />
 
     </LinearLayout>
 </LinearLayout>

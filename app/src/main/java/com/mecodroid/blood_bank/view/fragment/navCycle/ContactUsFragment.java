@@ -123,32 +123,36 @@ public class ContactUsFragment extends BaseFragment {
 
     //send message
     public void SendMessage() {
-        showProgressDialog(getActivity(), getResources().getString(R.string.loading));
-        // get  PaginationData governorates
-        apiServer.SendContact(LoadStringData(getActivity(), API_TOKEN), contactUsFragmentEtTitle.getText().toString()
-                , contactUsFragmentEtMassage.getText().toString()).enqueue(new Callback<Contact>() {
-            @Override
-            public void onResponse(Call<Contact> call, Response<Contact> response) {
-                dismissProgressDialog();
-                if (response.body().getStatus() == 1) {
-                    customMassageDone(getActivity(), response.body().getMsg());
-                    contactUsFragmentTxtPhone.setText("");
-                    contactUsFragmentTxtMail.setText("");
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    getActivity().startActivity(intent);
-                } else {
-                    customMassageError(getActivity(), response.body().getMsg());
+        if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getResources().getString(R.string.loading));
+            apiServer.SendContact(LoadStringData(getActivity(), API_TOKEN),
+                    contactUsFragmentEtTitle.getText().toString()
+                    , contactUsFragmentEtMassage.getText().toString()).enqueue(new Callback<Contact>() {
+                @Override
+                public void onResponse(Call<Contact> call, Response<Contact> response) {
+                    dismissProgressDialog();
+                    if (response.body().getStatus() == 1) {
+                        customMassageDone(getActivity(), response.body().getMsg());
+                        contactUsFragmentTxtPhone.setText("");
+                        contactUsFragmentTxtMail.setText("");
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        getActivity().startActivity(intent);
+                    } else {
+                        customMassageError(getActivity(), response.body().getMsg());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Contact> call, Throwable t) {
+                    customMassageError(getActivity(), t.getMessage());
 
                 }
-            }
-
-            @Override
-            public void onFailure(Call<Contact> call, Throwable t) {
-                customMassageError(getActivity(), t.getMessage());
-
-            }
-        });
-
+            });
+        } else {
+            dismissProgressDialog();
+            customMassageError(getActivity(), getResources().getString(R.string.no_internet));
+        }
     }
 
     @Override

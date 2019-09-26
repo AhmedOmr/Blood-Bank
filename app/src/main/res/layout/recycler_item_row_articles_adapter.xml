@@ -29,9 +29,9 @@
             android:layout_marginStart="@dimen/dim_8"
             android:layout_toStartOf="@id/articles_adapter_rl_favourites"
             android:layout_alignParentStart="true"
-            android:textColor="@color/black"
+            android:fontFamily="@font/cairo_bold"
             android:textSize="@dimen/font_14"
-            android:textStyle="bold" />
+            android:textColor="@color/thick_blue" />
 
         <RelativeLayout
             android:id="@+id/articles_adapter_rl_favourites"
@@ -60,7 +60,7 @@
         android:layout_height="@dimen/dim_2"
         android:layout_marginTop="@dimen/dim_1"
         android:layout_below="@id/articles_home_adapter_rl1"
-        android:background="@color/gray_dark" />
+        android:background="@color/gray_light" />
 
     <ImageView
         android:id="@+id/articles_home_adapter_img_post"

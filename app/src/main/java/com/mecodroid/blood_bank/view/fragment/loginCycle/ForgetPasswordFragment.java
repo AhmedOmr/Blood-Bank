@@ -26,6 +26,7 @@ import retrofit2.Response;
 import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.Vaildation.isValidPhone;
 
@@ -77,35 +78,37 @@ public class ForgetPasswordFragment extends BaseFragment {
 
     // send code
     private void sendReturnCod(final String phoneNumber) {
-        showProgressDialog(getActivity(),getResources().getString(R.string.waiit));
-        apiServer.resetPassword(phoneNumber)
-                .enqueue(new Callback<ResetPassword>() {
-                    @Override
-                    public void onResponse(Call<ResetPassword> call, Response<ResetPassword> response) {
-                       dismissProgressDialog();
-                        if (response.isSuccessful() && response.body().getStatus() == 1) {
-                            ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
-                            changePasswordFragment.phoneNumber = phoneNumber;
-                            ReplaceFragment(getActivity().getSupportFragmentManager(),
-                                    changePasswordFragment, R.id.fragmentlogin_container,
-                                    null, null);
+        if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getResources().getString(R.string.code_was_sent));
+            apiServer.resetPassword(phoneNumber)
+                    .enqueue(new Callback<ResetPassword>() {
+                        @Override
+                        public void onResponse(Call<ResetPassword> call, Response<ResetPassword> response) {
+                            dismissProgressDialog();
+                            if (response.isSuccessful() && response.body().getStatus() == 1) {
+                                ChangePasswordFragment changePasswordFragment = new ChangePasswordFragment();
+                                changePasswordFragment.phoneNumber = phoneNumber;
+                                ReplaceFragment(getActivity().getSupportFragmentManager(),
+                                        changePasswordFragment, R.id.fragmentlogin_container,
+                                        null, null);
 
-                        } else {
-                            customMassageError(getActivity(), response.body().getMsg());
+                            } else {
+                                customMassageError(getActivity(), response.body().getMsg());
+                            }
                         }
-                    }
 
 
-                    @Override
-                    public void onFailure(Call<ResetPassword> call, Throwable t) {
-                        dismissProgressDialog();
-                        customMassageError(getActivity(), t.getMessage());
+                        @Override
+                        public void onFailure(Call<ResetPassword> call, Throwable t) {
+                            dismissProgressDialog();
+                            customMassageError(getActivity(), t.getMessage());
 
 
-                    }
-                });
-
-
+                        }
+                    });
+        } else {
+            customMassageError(getActivity(), getResources().getString(R.string.no_internet));
+        }
     }
 
     @Override

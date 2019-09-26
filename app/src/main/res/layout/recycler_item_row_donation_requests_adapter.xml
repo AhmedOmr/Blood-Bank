@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/articles_content_fragment_lin_layout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dim_10"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:id="@+id/donation_request_adapter_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dim_100"
         android:layout_marginStart="@dimen/dim_4"
-        android:layout_marginTop="@dimen/dim_2"
+        android:layout_marginTop="@dimen/dim_6"
         android:layout_marginEnd="@dimen/dim_4"
-        android:layout_marginBottom="@dimen/dim_2">
+        android:layout_marginBottom="@dimen/dim_6">
 
         <LinearLayout
             android:id="@+id/linearLayout1"
@@ -33,14 +31,14 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/shape_edit_gray"
+                android:background="@drawable/shape_edit_darkgray"
+                android:fontFamily="@font/cairo_bold"
                 android:gravity="center"
                 android:padding="@dimen/dim_2"
-                android:text="@string/details"
+                android:text="@string/details_show"
                 android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_12" />
 
             <Button
                 android:id="@+id/donation_request_adapter_btn_call"
@@ -51,13 +49,13 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_edit_green"
                 android:drawableEnd="@drawable/call_20"
+                android:fontFamily="@font/cairo_bold"
                 android:gravity="center"
                 android:padding="@dimen/dim_2"
                 android:text="@string/call"
                 android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textSize="@dimen/font_12" />
         </LinearLayout>
 
 
@@ -83,7 +81,7 @@
                 android:text="@string/name_of_the_case"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_10"
-                android:textStyle="bold" />
+                android:fontFamily="@font/cairo_semi_bold" />
 
 
             <TextView
@@ -97,7 +95,7 @@
                 android:text="@string/hospital"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_10"
-                android:textStyle="bold" />
+                android:fontFamily="@font/cairo_semi_bold" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -110,7 +108,7 @@
                 android:text="@string/city"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_10"
-                android:textStyle="bold" />
+                android:fontFamily="@font/cairo_semi_bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -136,7 +134,7 @@
                 android:text="@string/text_example"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_10"
-                android:textStyle="bold" />
+                android:fontFamily="@font/cairo_regular" />
 
             <TextView
                 android:id="@+id/donation_request_adapter_txt_hospital"
@@ -150,7 +148,7 @@
                 android:text="@string/text_example"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_10"
-                android:textStyle="bold" />
+                android:fontFamily="@font/cairo_regular" />
 
             <TextView
                 android:id="@+id/donation_request_adapter_txt_city"
@@ -164,7 +162,7 @@
                 android:text="@string/text_example"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_10"
-                android:textStyle="bold" />
+                android:fontFamily="@font/cairo_regular" />
         </LinearLayout>
 
         <TextView
@@ -176,10 +174,10 @@
             android:layout_marginStart="@dimen/dim_5"
             android:layout_marginEnd="@dimen/dim_10"
             android:background="@drawable/shape_background_blood"
+            android:fontFamily="@font/cairo_bold"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="@dimen/font_20" />
     </RelativeLayout>
 
 

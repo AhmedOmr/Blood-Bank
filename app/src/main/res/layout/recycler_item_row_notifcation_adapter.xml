@@ -31,6 +31,7 @@
             android:layout_toEndOf="@id/notification_list_adapter_iv_notification_image"
             android:text=""
             android:textSize="@dimen/font_12"
+            android:fontFamily="@font/cairo_regular"
             android:textColor="@color/black"/>
 
         <TextView
@@ -42,6 +43,7 @@
             android:layout_marginEnd="@dimen/dim_4"
             android:layout_marginStart="@dimen/dim_4"
             android:text=""
+            android:fontFamily="@font/cairo_regular"
             android:textSize="@dimen/font_10" />
 
         <ImageView

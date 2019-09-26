@@ -16,9 +16,11 @@ import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.api.ApiServer;
 import com.mecodroid.blood_bank.data.model.favourite.FavouriteModel;
 import com.mecodroid.blood_bank.data.model.posts.PostData;
+import com.mecodroid.blood_bank.helper.HelperMethod;
 import com.mecodroid.blood_bank.view.fragment.HomeCycle.articles.ArticlesDetailsFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,14 +40,14 @@ import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadString
 
 public class RecyclerArticlesAdapter extends RecyclerView.Adapter<RecyclerArticlesAdapter.ViewHolder> {
 
-    ArrayList<PostData> postsArrayList;
+    List<PostData> postsArrayList;
     ViewHolder viewHolder;
     Context context;
     private ApiServer apiServer;
     private TextView articlesFragmentTxtNoItems;
     private boolean favourites;
 
-    public RecyclerArticlesAdapter(Context context, ArrayList<PostData> postsArrayList,
+    public RecyclerArticlesAdapter(Context context, List<PostData> postsArrayList,
                                    boolean favourites, TextView articlesFragmentTxtNoItems) {
         this.postsArrayList = postsArrayList;
         this.context = context;
@@ -53,6 +55,7 @@ public class RecyclerArticlesAdapter extends RecyclerView.Adapter<RecyclerArticl
         this.favourites = favourites;
         this.articlesFragmentTxtNoItems = articlesFragmentTxtNoItems;
     }
+
 
     @NonNull
     @Override
@@ -103,6 +106,7 @@ public class RecyclerArticlesAdapter extends RecyclerView.Adapter<RecyclerArticl
                 ArticlesDetailsFragment contentArticlesFragment = new ArticlesDetailsFragment();
                 //pass object from data to retrive data in Articles Content Fragment
                 contentArticlesFragment.post = postsArrayList.get(position);
+                HelperMethod.disappearKeypad((Activity) context, v);
                 ReplaceFragment(((FragmentActivity) v.getContext()).getSupportFragmentManager(),
                         contentArticlesFragment, R.id.content_home_replace
                         , null, null);
@@ -112,7 +116,8 @@ public class RecyclerArticlesAdapter extends RecyclerView.Adapter<RecyclerArticl
     }
 
     // set  favourite data
-    private void setFavoriteApi(final ViewHolder viewHolder, final int position) {
+    private void setFavoriteApi(final ViewHolder viewHolder,
+                                final int position) {
         final PostData postsData = postsArrayList.get(position);
 
         postsArrayList.get(position).setIsFavourite(!postsArrayList.get(position).getIsFavourite());
@@ -198,6 +203,12 @@ public class RecyclerArticlesAdapter extends RecyclerView.Adapter<RecyclerArticl
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
+        notifyDataSetChanged();
+    }
+
+    public void searchlist(List<PostData> postSearchList) {
+        postsArrayList = new ArrayList<>();
+        postsArrayList.addAll(postSearchList);
         notifyDataSetChanged();
     }
 

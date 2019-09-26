@@ -4,16 +4,14 @@ package com.mecodroid.blood_bank.view.fragment.HomeCycle.articles;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -34,7 +32,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +45,7 @@ import static com.mecodroid.blood_bank.helper.HelperMethod.disappearKeypad;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isRTL;
-import static com.mecodroid.blood_bank.helper.HelperMethod.setSpinner;
+import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
 
 /**
@@ -59,10 +56,8 @@ public class ArticlesFragment extends BaseFragment {
     public boolean backFromFavourites;
     public boolean favourites = false;
 
-    @BindView(R.id.articles_fragment_im_search)
-    ImageButton articlesFragmentImSearch;
-    @BindView(R.id.articles_fragment_edit_search)
-    EditText articlesFragmentEditSearch;
+    @BindView(R.id.articles_fragment_search)
+    SearchView articlesFragmentSearch;
     @BindView(R.id.articles_fragment_spin_catogery)
     Spinner articlesFragmentSpinCatogery;
     @BindView(R.id.articles_fragment_rv_posts)
@@ -74,20 +69,19 @@ public class ArticlesFragment extends BaseFragment {
     TextView articlesFragmentTxtNoResults;
     @BindView(R.id.articles_fragment_txt_no_items)
     TextView articlesFragmentTxtNoItems;
-    @BindView(R.id.articles_fragment_lin_search)
-    LinearLayout articlesFragmentLinSearch;
     @BindView(R.id.articles_fragment_ll_recycler)
     LinearLayout articlesFragmentLlRecycler;
     // store category  type name
     ArrayList<String> nameeCategories = new ArrayList<>();
     // store category  type id
     ArrayList<Integer> idCategories = new ArrayList<Integer>();
-    @BindView(R.id.articles_fragment_cardview)
-    CardView articlesFragmentCardview;
+    @BindView(R.id.articles_fragment_lin_lout_category)
+    LinearLayout articlesFragmentLinLoutCategory;
     @BindView(R.id.articles_fragment_container)
     RelativeLayout articlesFragmentContainer;
+    List<GeneralModel> datacategories;
     private ApiServer apiServer;
-    private ArrayList<PostData> postsArrayList;
+    private List<PostData> postsArrayList;
     private ArrayList<GeneralModel> categoriesArrayList;
     private RecyclerArticlesAdapter articlesAdapterRecycler;
     private int maxPage = 0;
@@ -96,6 +90,7 @@ public class ArticlesFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private boolean filterSearch = false;
     private String keyword = "";
+    private List<PostData> modlist;
 
     public ArticlesFragment() {
         // Required empty public constructor
@@ -111,22 +106,27 @@ public class ArticlesFragment extends BaseFragment {
         setUpHomeActivity();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_articles, container, false);
-        disappearKeypad(getActivity(), articlesFragmentEditSearch);
+        disappearKeypad(getActivity(), articlesFragmentSearch);
         unbinder = ButterKnife.bind(this, view);
-
+        setUpHomeActivity();
         initTools();
 
         if (favourites) {
-            articlesFragmentCardview.setVisibility(View.GONE);
+            articlesFragmentLinLoutCategory.setVisibility(View.GONE);
             homeActivity.setTitle(getString(R.string.favorite));
+            disappearKeypad(getActivity(), articlesFragmentSearch);
         }
-
         initRecyclerView();
         if (!favourites) {
             if (idCategories.size() == 0) {
+                articlesFragmentSearch.setQuery("", false);
                 getDataCategory();
             } else {
-                setSpinner(getActivity(), articlesFragmentSpinCatogery, nameeCategories);
+                articlesFragmentSearch.setQuery("", false);
+                disappearKeypad(getActivity(), articlesFragmentSearch);
+                nameeCategories.clear();
+                getDataCategory();
+
             }
         }
         articlesFragmentSrlArticlesListRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -156,8 +156,7 @@ public class ArticlesFragment extends BaseFragment {
             backFromFavourites = false;
             getPosts(1);
         }
-
-
+        onSearchItem();
         return view;
     }
 
@@ -212,7 +211,8 @@ public class ArticlesFragment extends BaseFragment {
             @Override
             public void onResponse(Call<Categories> call, Response<Categories> response) {
                 dismissProgressDialog();
-                List<GeneralModel> datacategories = response.body().getData();
+                datacategories = new ArrayList<>();
+                datacategories = response.body().getData();
                 // title category  type
                 nameeCategories.add(getResources().getString(R.string.all_categories));
                 idCategories.add(0);
@@ -226,7 +226,7 @@ public class ArticlesFragment extends BaseFragment {
 
                 // create array adapter to view list
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, nameeCategories);
+                        R.layout.spinner_layout2, nameeCategories);
                 // to specify form of spinner
                 adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
                 // bind spinner with adapter
@@ -237,6 +237,10 @@ public class ArticlesFragment extends BaseFragment {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         // return the item selected from spinner else postion equal zero (title)
                         category_type_id = idCategories.get(position);
+                        onSelectedItemSpinner(parent.getItemAtPosition(position).toString());
+                        disappearKeypad(getActivity(), articlesFragmentSearch);
+
+
                     }
 
                     @Override
@@ -255,52 +259,43 @@ public class ArticlesFragment extends BaseFragment {
         });
     }
 
+    private void onSelectedItemSpinner(String key) {
+        key = keyword;
+        keyword = articlesFragmentSearch.getQuery().toString().trim();
+        if (articlesFragmentSpinCatogery.getSelectedItemPosition() == 0
+                && keyword.equals("")) {
+            if (filterSearch) {
+                filterSearch = false;
 
-    // this is method all in click
-    private void onClickImageSearch() {
-        // edit text search keyword
-        articlesFragmentImSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                keyword = articlesFragmentEditSearch.getText().toString().trim();
-                if (articlesFragmentSpinCatogery.getSelectedItemPosition() == 0
-                        && keyword.equals("")) {
-                    if (filterSearch) {
-                        filterSearch = false;
+                onEndless.current_page = 1;
+                onEndless.previous_page = 1;
+                onEndless.previousTotal = 0;
+                onEndless.totalItemCount = 0;
+                maxPage = 0;
 
-                        onEndless.current_page = 1;
-                        onEndless.previous_page = 1;
-                        onEndless.previousTotal = 0;
-                        onEndless.totalItemCount = 0;
-                        maxPage = 0;
-
-                        postsArrayList = new ArrayList<>();
-                        articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList,
-                                favourites, articlesFragmentTxtNoItems);
-                        articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
-                        getPosts(1);
-                    }
-
-                } else {
-                    filterSearch = true;
-
-                    onEndless.current_page = 1;
-                    onEndless.previous_page = 1;
-                    onEndless.previousTotal = 0;
-                    onEndless.totalItemCount = 0;
-                    maxPage = 0;
-                    postsArrayList = new ArrayList<>();
-                    articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList,
-                            favourites, articlesFragmentTxtNoItems);
-                    articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
-
-                    getPostsFilter(1);
-                }
-
+                postsArrayList = new ArrayList<>();
+                articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(),
+                        postsArrayList, favourites, articlesFragmentTxtNoItems);
+                articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
+                getPosts(1);
             }
-        });
+
+        } else {
+            filterSearch = true;
+            onEndless.current_page = 1;
+            onEndless.previous_page = 1;
+            onEndless.previousTotal = 0;
+            onEndless.totalItemCount = 0;
+            maxPage = 0;
+            postsArrayList = new ArrayList<>();
+            articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList,
+                    favourites, articlesFragmentTxtNoItems);
+            articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
+            getPostsFilter(1);
+        }
 
     }
+
 
     // get all  post
     private void getPosts(int page) {
@@ -316,7 +311,7 @@ public class ArticlesFragment extends BaseFragment {
 
     // get  all filter Post with idCategory / KeyWord
     public void getPostsFilter(final int page) {
-        keyword = articlesFragmentEditSearch.getText().toString();
+        keyword = articlesFragmentSearch.getQuery().toString().trim();
         Call<Posts> call = apiServer.getPostFilter(LoadStringData(getActivity(), API_TOKEN),
                 page, keyword, category_type_id);
         loadDataPosts(page, call);
@@ -326,7 +321,7 @@ public class ArticlesFragment extends BaseFragment {
     // load all data posts
     private void loadDataPosts(final int page, Call<Posts> call) {
         if (isConnected(getActivity())) {
-            //showProgressDialog(getActivity(), getString(R.string.waiit));
+            showProgressDialog(getActivity(), getString(R.string.waiit));
             call.enqueue(new Callback<Posts>() {
                 @Override
                 public void onResponse(Call<Posts> call, Response<Posts> response) {
@@ -400,16 +395,32 @@ public class ArticlesFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.articles_fragment_im_search, R.id.articles_fragment_container})
-    public void onViewClicked(View view) {
-        disappearKeypad(getActivity(), view);
-        switch (view.getId()) {
-            case R.id.articles_fragment_im_search:
-               onClickImageSearch();
-                break;
-            case R.id.articles_fragment_container:
-                break;
-        }
+
+    public void onSearchItem() {
+        articlesFragmentSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                newText = newText.toLowerCase();
+                modlist = new ArrayList<>();
+                for (PostData mo : postsArrayList) {
+                    String nameMarket = mo.getTitle().toLowerCase();
+                    if (nameMarket.startsWith(newText)) {
+                        modlist.add(mo);
+                    }
+                    articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), modlist,
+                            favourites, articlesFragmentTxtNoItems);
+                    articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
+
+                    //  articlesAdapterRecycler.searchlist(modlist);
+                }
+                return false;
+            }
+        });
     }
 
     @Override

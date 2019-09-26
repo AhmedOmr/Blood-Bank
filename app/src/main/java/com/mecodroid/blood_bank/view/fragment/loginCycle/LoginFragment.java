@@ -115,7 +115,7 @@ public class LoginFragment extends BaseFragment {
         return fLoginFragment;
     }
 
-    // remember me
+    // remember user
     private void rememberUser() {
         // check the status of check box
         if (LoadBoolean(getActivity(), REMEMBER_USER)) {
@@ -130,6 +130,28 @@ public class LoginFragment extends BaseFragment {
 
         // save the status of check box
         SaveData(getActivity(), REMEMBER_USER, loginFragmentChBoxRemember.isChecked());
+    }
+
+    @OnClick({R.id.login_fragment_Rl_forget_password,
+            R.id.login_fragment_btn_login,
+            R.id.login_fragment_btn_register})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.login_fragment_Rl_forget_password:
+                ReplaceFragment(getActivity().getSupportFragmentManager(), new ForgetPasswordFragment(),
+                        R.id.fragmentlogin_container, null, null);
+                break;
+
+            case R.id.login_fragment_btn_login:
+                getAllLoginFields();
+                break;
+
+            case R.id.login_fragment_btn_register:
+                ReplaceFragment(getActivity().getSupportFragmentManager(), new NewAccountFragment(),
+                        R.id.fragmentlogin_container, null, null);
+
+                break;
+        }
     }
 
     // get All Login Components
@@ -213,7 +235,8 @@ public class LoginFragment extends BaseFragment {
 
     // save data of all client
     private void saveData(String apiToken, String name, String email, String phone,
-                          String birthDate, String donationLastDate, String cityId, String bloodType, String password) {
+                          String birthDate, String donationLastDate, String cityId,
+                          String bloodType, String password) {
         SaveData(getActivity(), API_TOKEN, apiToken);
         SaveData(getActivity(), USER_NAME, name);
         SaveData(getActivity(), EMAIL, email);
@@ -225,28 +248,6 @@ public class LoginFragment extends BaseFragment {
         SaveData(getActivity(), PASSWORD, password);
         SaveData(getActivity(), REMEMBER_USER, Checked);
 
-    }
-
-    @OnClick({R.id.login_fragment_Rl_forget_password,
-            R.id.login_fragment_btn_login,
-            R.id.login_fragment_btn_register})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.login_fragment_Rl_forget_password:
-                ReplaceFragment(getActivity().getSupportFragmentManager(), new ForgetPasswordFragment(),
-                        R.id.fragmentlogin_container, null, null);
-                break;
-
-            case R.id.login_fragment_btn_login:
-                getAllLoginFields();
-                break;
-
-            case R.id.login_fragment_btn_register:
-                ReplaceFragment(getActivity().getSupportFragmentManager(), new NewAccountFragment(),
-                        R.id.fragmentlogin_container, null, null);
-
-                break;
-        }
     }
 
     @Override

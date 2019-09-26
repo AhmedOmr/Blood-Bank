@@ -33,9 +33,10 @@
         android:layout_alignParentBottom="true"
         android:background="@null"
         android:text="@string/next"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/black" />
+        android:fontFamily="@font/cairo_bold"
+        android:padding="@dimen/dim_3"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_16" />
 
     <Button
         android:id="@+id/slider_fragment_btn_skip"
@@ -45,8 +46,9 @@
         android:layout_alignParentBottom="true"
         android:background="@null"
         android:text="@string/skip"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/black" />
+        android:fontFamily="@font/cairo_bold"
+        android:padding="@dimen/dim_3"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_16" />
 
 </RelativeLayout>

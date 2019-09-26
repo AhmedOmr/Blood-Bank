@@ -2,7 +2,6 @@ package com.mecodroid.blood_bank.view.fragment.HomeCycle.donationRequests;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,8 +63,6 @@ public class DonationRequestsFragment extends BaseFragment {
     Spinner donationRequestsFragmentSpinCity;
     @BindView(R.id.donation_requests_fragment_spin_blood_type)
     Spinner donationRequestsFragmentSpinBloodType;
-    @BindView(R.id.articles_home_adapter_card_view_2)
-    CardView cardView;
     @BindView(R.id.donation_requests_fragment_lin1)
     LinearLayout donationRequestsFragmentLin1;
     @BindView(R.id.donation_requests_fragment_recycler_view)
@@ -95,7 +92,6 @@ public class DonationRequestsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setUpHomeActivity();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_donation_requests, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -157,6 +153,7 @@ public class DonationRequestsFragment extends BaseFragment {
         apiServer.getBloodTypes().enqueue(new Callback<BloodTypes>() {
             @Override
             public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
+                dismissProgressDialog();
                 bloodTypesData = new ArrayList<>();
                 bloodTypesData = response.body().getData();
                 // title blood type
@@ -172,7 +169,7 @@ public class DonationRequestsFragment extends BaseFragment {
 
                 // create array adapter to view list
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, typeBlood);
+                        R.layout.spinner_layout2, typeBlood);
                 // to specify form of spinner
                 adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
                 // bind spinner with adapter
@@ -206,6 +203,7 @@ public class DonationRequestsFragment extends BaseFragment {
             @Override
             public void onResponse(Call<Governorates> call, Response<Governorates> response) {
                 try {
+                    dismissProgressDialog();
                     governoratesData = new ArrayList<>();
                     governoratesData = response.body().getData();
                     governorat.add(getString(R.string.all_governorate));
@@ -219,7 +217,7 @@ public class DonationRequestsFragment extends BaseFragment {
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                            android.R.layout.simple_spinner_item, governorat);
+                            R.layout.spinner_layout2, governorat);
 
                     adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
                     donationRequestsFragmentSpinCity.setAdapter(adapter);
@@ -242,6 +240,7 @@ public class DonationRequestsFragment extends BaseFragment {
 
             @Override
             public void onFailure(Call<Governorates> call, Throwable t) {
+                dismissProgressDialog();
 
 
             }
@@ -316,6 +315,10 @@ public class DonationRequestsFragment extends BaseFragment {
 
     }
 
+    @OnClick(R.id.donation_requests_fragment_img_btn_search)
+    public void onViewClicked() {
+        onClickImageSearch();
+    }
     // get all  donation
     private void getDonations(int page) {
         if (isConnected(getActivity())) {
@@ -388,15 +391,6 @@ public class DonationRequestsFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.donation_requests_fragment_img_btn_search)
-    public void onViewClicked() {
-        onClickImageSearch();
-    }
-
-    @Override
-    public void onBack() {
-        super.onBack();
-    }
 
     @Override
     public void onDestroyView() {

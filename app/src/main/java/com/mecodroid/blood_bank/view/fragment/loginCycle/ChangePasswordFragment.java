@@ -11,8 +11,8 @@ import android.widget.EditText;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mecodroid.blood_bank.R;
-import com.mecodroid.blood_bank.data.api.RetrfitClient;
 import com.mecodroid.blood_bank.data.api.ApiServer;
+import com.mecodroid.blood_bank.data.api.RetrfitClient;
 import com.mecodroid.blood_bank.data.model.newpassword.NewPassword;
 import com.mecodroid.blood_bank.view.fragment.BaseFragment;
 
@@ -30,6 +30,7 @@ import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.SaveData;
 import static com.mecodroid.blood_bank.helper.Vaildation.isIdenticalPassword;
@@ -104,44 +105,49 @@ public class ChangePasswordFragment extends BaseFragment {
     }
 
     // create new password
-    public void createNewPassword(String pinCode, final String password, String confirmPassword, final String phone) {
-        showProgressDialog(getActivity(),getResources().getString(R.string.code_was_sent));
-        apiServer.inputNewPassword(pinCode, password, confirmPassword, phone)
-                .enqueue(new Callback<NewPassword>() {
-                    public void onResponse(Call<NewPassword> call, Response<NewPassword> response) {
-                       dismissProgressDialog();
-                       try {
-                            if (response.body() != null) {
-                                if (response.body().getStatus() == 1) {
+    public void createNewPassword(String pinCode, final String password,
+                                  String confirmPassword, final String phone) {
+        if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getResources().getString(R.string.password_changed));
+            apiServer.inputNewPassword(pinCode, password, confirmPassword, phone)
+                    .enqueue(new Callback<NewPassword>() {
+                        public void onResponse(Call<NewPassword> call, Response<NewPassword> response) {
+                            dismissProgressDialog();
+                            try {
+                                if (response.body() != null) {
+                                    if (response.body().getStatus() == 1) {
 
-                                    SaveData(getActivity(), PASSWORD, password);
-                                    SaveData(getActivity(), PHONE, phone);
+                                        SaveData(getActivity(), PASSWORD, password);
+                                        SaveData(getActivity(), PHONE, phone);
 
 
-                                    ReplaceFragment(getActivity().getSupportFragmentManager(), new LoginFragment(),
-                                            R.id.fragmentlogin_container, null, null);
-                                    customMassageDone(getActivity(), response.body().getMsg());
+                                        ReplaceFragment(getActivity().getSupportFragmentManager(), new LoginFragment(),
+                                                R.id.fragmentlogin_container, null, null);
+                                        customMassageDone(getActivity(), response.body().getMsg());
+
+                                    }
+
+                                } else {
+                                    customMassageError(getActivity(), response.body().getMsg());
 
                                 }
-
-                            }else{
-                                customMassageError(getActivity(), response.body().getMsg());
-
+                            } catch (Exception e) {
+                                customMassageError(getActivity(), e.getMessage());
                             }
-                        } catch (Exception e) {
-                            customMassageError(getActivity(), e.getMessage());
+
                         }
 
-                    }
 
+                        @Override
+                        public void onFailure(Call<NewPassword> call, Throwable t) {
+                            dismissProgressDialog();
+                            customMassageError(getActivity(), t.getMessage());
 
-                    @Override
-                    public void onFailure(Call<NewPassword> call, Throwable t) {
-                        dismissProgressDialog();
-                       customMassageError(getActivity(), t.getMessage());
-
-                    }
-                });
+                        }
+                    });
+        } else {
+            customMassageError(getActivity(), getResources().getString(R.string.no_internet));
+        }
 
     }
 

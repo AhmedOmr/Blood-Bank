@@ -42,6 +42,6 @@
     <color name="color_tab_bar_unsSelect">#F3F3F3</color>
     <color name="tab_gray">#D8D8D8</color>
     <color name="toolbar_gray">#FAFAFA</color>
-    <color name="gray_dark">#dfdede</color>
+    <color name="gray_light">#dfdede</color>
 
 </resources>

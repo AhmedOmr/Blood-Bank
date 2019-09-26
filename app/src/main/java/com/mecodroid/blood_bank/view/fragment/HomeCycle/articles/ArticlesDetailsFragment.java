@@ -84,7 +84,6 @@ public class ArticlesDetailsFragment extends BaseFragment {
 
     @Override
     public void onBack() {
-        homeActivity.setVisibility(View.GONE);
         super.onBack();
     }
 }

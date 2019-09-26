@@ -72,8 +72,8 @@ public class CreateDonationRequestFragment extends BaseFragment {
     Spinner createDonationRequestsFragmentSpGovernment;
     @BindView(R.id.create_donation_requests_fragment_sp_city)
     Spinner createDonationRequestsFragmentSpCity;
-    @BindView(R.id.create_donation_requests_fragment_et_hospital_address)
-    EditText createDonationRequestsFragmentEtHospitalAddress;
+    @BindView(R.id.create_donation_requests_fragment_txt_hospital_address)
+    TextView createDonationRequestsFragmentEtHospitalAddress;
     @BindView(R.id.create_donation_requests_fragment_et_phone)
     EditText createDonationRequestsFragmentEtPhone;
     @BindView(R.id.create_donation_requests_fragment_et_notes)
@@ -93,9 +93,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initFragment();
-        setUpHomeActivity();
-        // Inflate the layout for this fragment
+        initFragment();        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_donation_requests, container, false);
         unbinder = ButterKnife.bind(this, view);
 
@@ -137,7 +135,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
 
                 // create array adapter to view list
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, typeBlood) {
+                        R.layout.spinner_layout2, typeBlood) {
                     @Override
                     public boolean isEnabled(int position) {
                         return position != 0;
@@ -204,7 +202,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, governorat) {
+                        R.layout.spinner_layout2, governorat) {
                     @Override
                     public boolean isEnabled(int position) {
                         return position != 0;
@@ -275,7 +273,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
                         }
 
                         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                                android.R.layout.simple_spinner_item, cities) {
+                                R.layout.spinner_layout2, cities) {
                             @Override
                             public boolean isEnabled(int position) {
                                 return position != 0;
@@ -328,21 +326,19 @@ public class CreateDonationRequestFragment extends BaseFragment {
 
 
     @OnClick({R.id.create_donation_requests_fragment_btn_create_request,
-            R.id.create_donation_requests_fragment_Iv_open_map,
+            R.id.create_donation_requests_fragment_txt_hospital_address,
             R.id.create_donation_requests_fragment_rl_sub_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_donation_requests_fragment_btn_create_request:
                 getAllCreateDonationReqFields();
+                disappearKeypad(getActivity(), getView());
                 break;
-            case R.id.create_donation_requests_fragment_Iv_open_map:
+            case R.id.create_donation_requests_fragment_txt_hospital_address:
                 createDonationRequestsFragmentEtHospitalAddress.setError(null);
                 Intent intent = new Intent(getActivity(), MapsActivity.class);
                 startActivity(intent);
 
-                break;
-            case R.id.create_donation_requests_fragment_rl_sub_view:
-                disappearKeypad(getActivity(), view);
                 break;
 
         }
@@ -508,10 +504,6 @@ public class CreateDonationRequestFragment extends BaseFragment {
         createDonationRequestsFragmentEtHospitalAddress.setError(null);
     }
 
-    @Override
-    public void onBack() {
-        super.onBack();
-    }
 
     @Override
     public void onDestroyView() {

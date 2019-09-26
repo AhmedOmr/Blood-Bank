@@ -206,13 +206,13 @@ public class HelperMethod {
         View toastLayout = inflater.inflate(R.layout.toast_custom,
                 (ViewGroup) activity.findViewById(R.id.toast_root_view));
 
-        toastLayout.setBackgroundColor(getColorWithAlpha(Color.RED, 0.7f));
+        toastLayout.setBackground(activity.getResources().getDrawable(R.drawable.shape_toast_error));
 
         TextView header = toastLayout.findViewById(R.id.toast_header);
         header.setText(title);
 
         ImageView body = toastLayout.findViewById(R.id.toast_body);
-        body.setImageResource(R.drawable.err_36);
+        body.setImageResource(R.drawable.failed_icon24);
 
         Toast toast = new Toast(activity);
         toast.setGravity(Gravity.BOTTOM, 0, 250);
@@ -227,14 +227,14 @@ public class HelperMethod {
         View toastLayout = inflater.inflate(R.layout.toast_custom,
                 (ViewGroup) activity.findViewById(R.id.toast_root_view));
 
-        toastLayout.setBackground(activity.getResources().getDrawable(R.drawable.shape_toast));
+        toastLayout.setBackground(activity.getResources().getDrawable(R.drawable.shape_toast_done));
         //toastLayout.setBackgroundColor(getColorWithAlpha(Color.RED, 0.7f));
 
         TextView header = toastLayout.findViewById(R.id.toast_header);
         header.setText(title);
 
         ImageView body = toastLayout.findViewById(R.id.toast_body);
-        body.setImageResource(R.drawable.done_24);
+        body.setImageResource(R.drawable.done_icon24);
 
         Toast toast = new Toast(activity);
         toast.setGravity(Gravity.BOTTOM, 0, 250);
@@ -449,7 +449,16 @@ public class HelperMethod {
     public static void setSpinner(Activity activity, Spinner spinner, List<String> names) {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
-                android.R.layout.simple_spinner_item, names);
+                R.layout.spinner_layout2, names);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        spinner.setAdapter(adapter);
+        dismissProgressDialog();
+    }
+
+    public static void setSpinnerBold(Activity activity, Spinner spinner, List<String> names) {
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity,
+                R.layout.spinner_layout, names);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spinner.setAdapter(adapter);
     }

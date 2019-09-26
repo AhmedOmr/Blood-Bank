@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/toolbar"
             android:layout_alignBottom="@id/toolbar"
-        android:background="@color/gray_dark">
+            android:background="@color/gray_light">
 
         <ImageView
             android:id="@+id/nav_menu"
@@ -47,8 +47,9 @@
             android:layout_marginEnd="@dimen/dim_8"
             android:maxLines="1"
             android:text=""
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_14" />
+            android:fontFamily="@font/cairo_bold"
+            android:textColor="@color/thick_blue"
+            android:textSize="@dimen/font_18" />
 
         <ImageView
             android:id="@+id/home_navigation_activity_iv_notification"
@@ -72,6 +73,7 @@
             android:gravity="center"
             android:padding="@dimen/dim_4"
             android:textColor="@color/white"
+            android:fontFamily="@font/cairo_regular"
             android:textSize="@dimen/font_8"
             android:visibility="gone"/>
 

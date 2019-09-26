@@ -41,8 +41,10 @@ import retrofit2.Response;
 import static com.mecodroid.blood_bank.data.api.RetrfitClient.getClient;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.PASSWORD;
+import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showCalender;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
@@ -98,10 +100,8 @@ public class UpdateDataUserFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         //
         inti();
-
         getAllGovernorate();
         getAllBloodTypes();
-
         getDataProfile();
 
         return view;
@@ -143,45 +143,52 @@ public class UpdateDataUserFragment extends BaseFragment {
     }
 
     // check fields validation
-    private void checkValidationRegisteration(String name, String email, String birth_date, String phone,
-                                              String donation_last_date, String password, String password_confirmation) {
+    private void checkValidationRegisteration(String name, String email, String birth_date,
+                                              String phone, String donation_last_date,
+                                              String password, String password_confirmation) {
         if (!isValidName(name)) {
             updateDataUserFragmentEtName.setError("Invalid name");
+            updateDataUserFragmentEtName.requestFocus();
             customMassageError(getActivity(), "Invalid name");
-
             return;
         }
         if (!isValidEmail(email)) {
             updateDataUserFragmentEtEmail.setError("Invalid Email");
+            updateDataUserFragmentEtEmail.requestFocus();
             customMassageError(getActivity(), "Invalid Email");
             return;
         }
         if (!isValidBirthday(birth_date)) {
             updateDataUserFragmentTxtBirthDate.setError("Invalid Birth date  or less/ more than allowed");
+            updateDataUserFragmentTxtBirthDate.requestFocus();
             customMassageError(getActivity(), "Invalid Birth date  or less/ more than allowed");
             return;
         }
 
         if (!isValiddonationday(donation_last_date)) {
             updateDataUserFragmentTxtLastDonDate.setError("Invalid donation  date or more than allowed");
+            updateDataUserFragmentTxtLastDonDate.requestFocus();
             customMassageError(getActivity(), "Invalid donation  date or more than allowed");
             return;
         }
 
         if (!isValidPhone(phone)) {
             updateDataUserFragmentEtPhone.setError("Invalid phone");
+            updateDataUserFragmentEtPhone.requestFocus();
             customMassageError(getActivity(), "Invalid phone");
             return;
         }
 
         if (!isValidPassword(password)) {
             updateDataUserFragmentEtPass.setError("Invalid password");
+            updateDataUserFragmentEtPass.requestFocus();
             customMassageError(getActivity(), "Invalid password ");
             return;
         }
 
         if (!isIdenticalPassword(password, password_confirmation)) {
             updateDataUserFragmentEtConfirmPass.setError("Password is not identical");
+            updateDataUserFragmentEtConfirmPass.requestFocus();
             customMassageError(getActivity(), "Password is not identical");
             return;
         }
@@ -190,63 +197,76 @@ public class UpdateDataUserFragment extends BaseFragment {
     }
 
     private void updateData(String name, String email, String birth_date, String phone, String donation_last_date, String password, String password_confirmation) {
-        apiServer.onUpdate(name, email, birth_date, startCityId, phone, donation_last_date, password, password_confirmation
-                , blood_type_id, LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<ProfileEdit>() {
-            @Override
-            public void onResponse(Call<ProfileEdit> call, Response<ProfileEdit> response) {
+        if (isConnected(getActivity())) {
+            apiServer.onUpdate(name, email, birth_date, startCityId, phone, donation_last_date, password, password_confirmation
+                    , blood_type_id, LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<ProfileEdit>() {
+                @Override
+                public void onResponse(Call<ProfileEdit> call, Response<ProfileEdit> response) {
 
-                if (response.body().getStatus() == 1) {
+                    if (response.body().getStatus() == 1) {
 
-                    showProgressDialog(getActivity(), getResources().getString(R.string.loading));
+                        showProgressDialog(getActivity(), getResources().getString(R.string.loading));
 
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    getActivity().startActivity(intent);
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        getActivity().startActivity(intent);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ProfileEdit> call, Throwable t) {
-                dismissProgressDialog();
-            }
-        });
+                @Override
+                public void onFailure(Call<ProfileEdit> call, Throwable t) {
+                    dismissProgressDialog();
+                }
+            });
+        } else {
+            dismissProgressDialog();
+            customMassageError(getActivity(), getResources().getString(R.string.no_internet));
+
+        }
     }
 
 
     public void getDataProfile() {
-        apiServer.getProfile(LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<Profile>() {
-            @Override
-            public void onResponse(Call<Profile> call, Response<Profile> response) {
+        if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getResources().getString(R.string.waiit));
+            apiServer.getProfile(LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<Profile>() {
+                @Override
+                public void onResponse(Call<Profile> call, Response<Profile> response) {
 
-                if (response.body().getStatus() == 1) {
-                    dismissProgressDialog();
-                    try {
-
-                        updateDataUserFragmentEtName.setText(response.body().getProfileData().getClient().getName());
-                        updateDataUserFragmentEtEmail.setText(response.body().getProfileData().getClient().getEmail());
-                        updateDataUserFragmentTxtBirthDate.setText(response.body().getProfileData().getClient().getBirthDate());
-                        updateDataUserFragmentTxtLastDonDate.setText(response.body().getProfileData().getClient().getDonationLastDate());
-                        updateDataUserFragmentEtPhone.setText(response.body().getProfileData().getClient().getPhone());
-                        updateDataUserFragmentEtPass.setText(LoadStringData(getActivity(), PASSWORD));
-                        updateDataUserFragmentEtConfirmPass.setText(LoadStringData(getActivity(), PASSWORD));
-
-                        updateDataUserFragmentSpinBloodType.setSelection((response.body().getProfileData().getClient().getBloodType().getId()));
-                        updateDataUserFragmentSpinGov.setSelection((response.body().getProfileData().getClient().getCity().getGovernorate().getId()));
-                        returnIcCity = response.body().getProfileData().getClient().getCity().getId();
-
-
-                    } catch (Exception e) {
+                    if (response.body().getStatus() == 1) {
                         dismissProgressDialog();
-                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+
+                            updateDataUserFragmentEtName.setText(response.body().getProfileData().getClient().getName());
+                            updateDataUserFragmentEtEmail.setText(response.body().getProfileData().getClient().getEmail());
+                            updateDataUserFragmentTxtBirthDate.setText(response.body().getProfileData().getClient().getBirthDate());
+                            updateDataUserFragmentTxtLastDonDate.setText(response.body().getProfileData().getClient().getDonationLastDate());
+                            updateDataUserFragmentEtPhone.setText(response.body().getProfileData().getClient().getPhone());
+                            updateDataUserFragmentEtPass.setText(LoadStringData(getActivity(), PASSWORD));
+                            updateDataUserFragmentEtConfirmPass.setText(LoadStringData(getActivity(), PASSWORD));
+
+                            updateDataUserFragmentSpinBloodType.setSelection((response.body().getProfileData().getClient().getBloodType().getId()));
+                            updateDataUserFragmentSpinGov.setSelection((response.body().getProfileData().getClient().getCity().getGovernorate().getId()));
+                            returnIcCity = response.body().getProfileData().getClient().getCity().getId();
+
+
+                        } catch (Exception e) {
+                            dismissProgressDialog();
+                            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+                        }
                     }
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<Profile> call, Throwable t) {
+                    dismissProgressDialog();
+                }
+            });
+        } else {
+            dismissProgressDialog();
+            customMassageError(getActivity(), getResources().getString(R.string.no_internet));
 
-            @Override
-            public void onFailure(Call<Profile> call, Throwable t) {
-                dismissProgressDialog();
-            }
-        });
+        }
     }
 
 
@@ -275,17 +295,10 @@ public class UpdateDataUserFragment extends BaseFragment {
 
                 // create array adapter to view list
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, typeBlood) {
+                        R.layout.spinner_layout, typeBlood) {
                     @Override
                     public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return position != 0;
                     }
 
                     @Override
@@ -351,17 +364,10 @@ public class UpdateDataUserFragment extends BaseFragment {
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, governorat) {
+                        R.layout.spinner_layout, governorat) {
                     @Override
                     public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return position != 0;
                     }
 
                     @Override
@@ -430,17 +436,10 @@ public class UpdateDataUserFragment extends BaseFragment {
                         }
 
                         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                                android.R.layout.simple_spinner_item, cities) {
+                                R.layout.spinner_layout, cities) {
                             @Override
                             public boolean isEnabled(int position) {
-                                if (position == 0) {
-                                    // Disable the first item from Spinner
-                                    // First item will be use for hint
-
-                                    return false;
-                                } else {
-                                    return true;
-                                }
+                                return position != 0;
                             }
 
                             @Override
@@ -500,10 +499,18 @@ public class UpdateDataUserFragment extends BaseFragment {
                 break;
         }
     }
-
     @Override
     public void onBack() {
-        super.onBack();
+        setUpHomeActivity();
+        ReplaceFragment(getActivity().getSupportFragmentManager(), homeActivity.homeFragment,
+                R.id.content_home_replace, null, null);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getAllGovernorate();
+        getAllBloodTypes();
     }
 
     @Override

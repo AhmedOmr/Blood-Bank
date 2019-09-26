@@ -1,14 +1,11 @@
 package com.mecodroid.blood_bank.view.fragment.loginCycle;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,19 +15,13 @@ import com.jaeger.library.StatusBarUtil;
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.api.ApiServer;
 import com.mecodroid.blood_bank.data.api.RetrfitClient;
-import com.mecodroid.blood_bank.data.model.bloodtypes.BloodTypes;
-import com.mecodroid.blood_bank.data.model.cities.CityDataModel;
-import com.mecodroid.blood_bank.data.model.cities.GeneralModel;
-import com.mecodroid.blood_bank.data.model.governorates.Governorates;
 import com.mecodroid.blood_bank.data.model.register.Register;
 import com.mecodroid.blood_bank.data.model.register.RegisterData;
 import com.mecodroid.blood_bank.helper.DateModel;
 import com.mecodroid.blood_bank.view.activity.HomeActivity;
 import com.mecodroid.blood_bank.view.fragment.BaseFragment;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +42,8 @@ import static com.mecodroid.blood_bank.helper.BloodBankConatants.PASSWORD;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.PHONE;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.REMEMBER_USER;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.USER_NAME;
+import static com.mecodroid.blood_bank.helper.CommonModelMethod.getAllBloodTypes;
+import static com.mecodroid.blood_bank.helper.CommonModelMethod.getAllGovern;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.disappearKeypad;
@@ -135,229 +128,10 @@ public class NewAccountFragment extends BaseFragment {
             newAccountFragmentSpinGovernorate.setPaddingRelative(0, 0, 80, 0);
 
         }
-        getAllBloodTypes();
-        getAllGovernorate();
+        getAllBloodTypes(getActivity(), apiServer, newAccountFragmentSpinBloodType);
+        getAllGovern(getActivity(), apiServer, newAccountFragmentSpinGovernorate, newAccountFragmentSpinCity);
 
         return newAccount;
-    }
-
-    // get all blood Types
-    public void getAllBloodTypes() {
-        showProgressDialog(getActivity(), getResources().getString(R.string.waiit));
-        apiServer.getBloodTypes().enqueue(new Callback<BloodTypes>() {
-            @Override
-            public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
-                dismissProgressDialog();
-                List<GeneralModel> bloodTypesData = response.body().getData();
-                // store blood type name
-                final ArrayList<String> typeBlood = new ArrayList<>();
-                // store blood type id
-                final ArrayList<Integer> idBlood = new ArrayList<Integer>();
-                // title blood type
-                typeBlood.add(getString(R.string.blood_type).trim());
-                idBlood.add(0);
-                // loop all blood types and pass name types to blood name list, pass the id of blood types to blood id list
-                for (int i = 0; i < bloodTypesData.size(); i++) {
-                    String bloodTypNAme = bloodTypesData.get(i).getName();
-                    Integer bloodTypId = bloodTypesData.get(i).getId();
-                    typeBlood.add(bloodTypNAme);
-                    idBlood.add(bloodTypId);
-                }
-
-                // create array adapter to view list
-                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, typeBlood) {
-                    @Override
-                    public boolean isEnabled(int position) {
-                        return position != 0;
-                    }
-
-                    @Override
-                    public View getDropDownView(int position, View convertView,
-                                                ViewGroup parent) {
-                        View view = super.getDropDownView(position, convertView, parent);
-                        TextView tv = (TextView) view;
-                        if (position == 0) {
-                            // Set the hint text color gray
-                            tv.setTextColor(Color.GRAY);
-                        } else {
-                            tv.setTextColor(Color.BLACK);
-                        }
-                        return view;
-                    }
-                };
-                // to specify form of spinner
-                adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-                // bind spinner with adapter
-                newAccountFragmentSpinBloodType.setAdapter(adapter);
-                // interaction with spinner
-                newAccountFragmentSpinBloodType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        // return the item selected from spinner else postion equal zero (title)
-                        blood_type_id = String.valueOf(idBlood.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFailure(Call<BloodTypes> call, Throwable t) {
-                dismissProgressDialog();
-                customMassageError(getActivity(), t.getMessage());
-            }
-        });
-
-    }
-
-    // get all Governratrate
-    public void getAllGovernorate() {
-        apiServer.getGovernorates().enqueue(new Callback<Governorates>() {
-            @Override
-            public void onResponse(Call<Governorates> call, Response<Governorates> response) {
-                dismissProgressDialog();
-                List<GeneralModel> governoratesDatumList = response.body().getData();
-                ArrayList<String> governorat = new ArrayList<>();
-                final ArrayList<Integer> idGovern = new ArrayList<>();
-                governorat.add(getString(R.string.choosegovernorate));
-                idGovern.add(0);
-
-                for (int i = 0; i < governoratesDatumList.size(); i++) {
-                    String governorateName = governoratesDatumList.get(i).getName();
-                    Integer governoratId = governoratesDatumList.get(i).getId();
-                    governorat.add(governorateName);
-                    idGovern.add(governoratId);
-                }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.simple_spinner_item, governorat) {
-                    @Override
-                    public boolean isEnabled(int position) {
-                        return position != 0;
-                    }
-
-                    @Override
-                    public View getDropDownView(int position, View convertView,
-                                                ViewGroup parent) {
-                        View view = super.getDropDownView(position, convertView, parent);
-                        TextView tv = (TextView) view;
-                        if (position == 0) {
-                            // Set the hint text color gray
-                            tv.setTextColor(Color.GRAY);
-                        } else {
-                            tv.setTextColor(Color.BLACK);
-                        }
-                        return view;
-                    }
-                };
-
-                adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-                newAccountFragmentSpinGovernorate.setAdapter(adapter);
-
-                newAccountFragmentSpinGovernorate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position > 0) {
-                            getAllCity((idGovern.get(position)));
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFailure(Call<Governorates> call, Throwable t) {
-                dismissProgressDialog();
-                customMassageError(getActivity(), t.getMessage());
-            }
-
-        });
-    }
-
-    // get all city
-    private void getAllCity(Integer gavernoratesId) {
-        showProgressDialog(getActivity(), getResources().getString(R.string.waiit));
-        apiServer.getCities(gavernoratesId)
-                .enqueue(new Callback<CityDataModel>() {
-                    @Override
-                    public void onResponse(Call<CityDataModel> call, Response<CityDataModel> response) {
-                        dismissProgressDialog();
-                        List<GeneralModel> citiesDatumList = response.body().getData();
-                        ArrayList<String> cities = new ArrayList<>();
-                        final ArrayList<Integer> citiesId = new ArrayList<>();
-
-                        cities.add(getString(R.string.choosecity));
-                        citiesId.add(0);
-
-                        for (int i = 0; i < citiesDatumList.size(); i++) {
-                            String cityName = citiesDatumList.get(i).getName();
-                            Integer cityId = citiesDatumList.get(i).getId();
-
-                            cities.add(cityName);
-                            citiesId.add(cityId);
-                        }
-
-                        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                                android.R.layout.simple_spinner_item, cities) {
-                            @Override
-                            public boolean isEnabled(int position) {
-                                return position != 0;
-                            }
-
-                            @Override
-                            public View getDropDownView(int position, View convertView,
-                                                        ViewGroup parent) {
-                                View view = super.getDropDownView(position, convertView, parent);
-                                TextView tv = (TextView) view;
-                                if (position == 0) {
-                                    // Set the hint text color gray
-                                    tv.setTextColor(Color.GRAY);
-                                } else {
-                                    tv.setTextColor(Color.BLACK);
-                                }
-                                return view;
-                            }
-                        };
-
-                        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
-
-                        newAccountFragmentSpinCity.setAdapter(adapter);
-
-                        newAccountFragmentSpinCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                if (position > 0) {
-                                    startCityId = String.valueOf(citiesId.get(position));
-                                }
-
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<CityDataModel> call, Throwable t) {
-                        dismissProgressDialog();
-                        customMassageError(getActivity(), t.getMessage());
-
-
-                    }
-                });
     }
 
     @OnClick({R.id.new_account_fragment_txt_Birth_date,
@@ -367,8 +141,6 @@ public class NewAccountFragment extends BaseFragment {
         disappearKeypad(getActivity(), getView());
         try {
             switch (view.getId()) {
-
-
                 case R.id.new_account_fragment_txt_Birth_date:
                     setDateCalendar(newAccountFragmentTxtBirthDate);
                     break;
@@ -528,7 +300,7 @@ public class NewAccountFragment extends BaseFragment {
                         }
                     });
         } else {
-
+            customMassageError(getActivity(), getResources().getString(R.string.no_internet));
         }
     }
 
