@@ -145,7 +145,7 @@ public class RecyclerArticlesAdapter extends RecyclerView.Adapter<RecyclerArticl
                 .enqueue(new Callback<FavouriteModel>() {
                     @Override
                     public void onResponse(Call<FavouriteModel> call, Response<FavouriteModel> response) {
-                        showProgressDialog((Activity) context, context.getResources().getString(R.string.waiit));
+                        showProgressDialog((Activity) context, context.getResources().getString(R.string.wait));
                         try {
                             if (response.body().getStatus() == 1) {
                                 dismissProgressDialog();

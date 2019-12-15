@@ -15,7 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.mecodroid.blood_bank.R;
-import com.mecodroid.blood_bank.view.activity.SplashSliderActivity;
+import com.mecodroid.blood_bank.view.activity.SliderActivity;
 
 import java.util.Map;
 import java.util.Random;
@@ -59,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             .setAutoCancel(true)
                             .setSound(defaultSoundUri);
 
-            Intent resultIntent = new Intent(this, SplashSliderActivity.class);
+            Intent resultIntent = new Intent(this, SliderActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             notificationBuilder.setContentIntent(pendingIntent);
 

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.data.api.ApiServer;
-import com.mecodroid.blood_bank.view.activity.RegsteratinAndLoginActivity;
+import com.mecodroid.blood_bank.view.activity.UserActivity;
 import static com.mecodroid.blood_bank.data.api.RetrfitClient.getClient;
 import static com.mecodroid.blood_bank.helper.HelperMethod.removeNotificationToken;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.clean;
@@ -37,7 +37,7 @@ public class ViewDialog {
 
                 clean(activity);
 
-                Intent i = new Intent(activity, RegsteratinAndLoginActivity.class);
+                Intent i = new Intent(activity, UserActivity.class);
 
                 activity.startActivity(i);
                 // close this activity

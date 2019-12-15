@@ -296,7 +296,7 @@ public class DonationRequestsFragment extends BaseFragment {
                 donationAdapterRecycler = new RecyclerDonationHomeAdapter(getActivity(), donationRequestArrayList);
                 donationRequestsFragmentRecyclerView.setAdapter(donationAdapterRecycler);
 
-                showProgressDialog(getActivity(), getString(R.string.waiit));
+                showProgressDialog(getActivity(), getString(R.string.wait));
                 if (donationRequestsFragmentSpinBloodType.getSelectedItemPosition() == 0
                         && donationRequestsFragmentSpinCity.getSelectedItemPosition() == 0) {
 
@@ -348,7 +348,7 @@ public class DonationRequestsFragment extends BaseFragment {
     // load all donation req
     private void callLoadData(int page, Call<DonationRequests> donationRequestsCall) {
         if (page > 1) {
-            showProgressDialog(getActivity(), getString(R.string.waiit));
+            showProgressDialog(getActivity(), getString(R.string.wait));
         }
 
         donationRequestsCall.enqueue(new Callback<DonationRequests>() {

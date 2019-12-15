@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,8 +49,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     DrawerLayout drawer;
     @BindView(R.id.content_home_replace)
     FrameLayout contentHomeReplace;
-    @BindView(R.id.replaceframe)
-    FrameLayout ReplaceContentFramre;
     @BindView(R.id.nav_menu)
     ImageView menu;
     @BindView(R.id.App_Bar_TextViewChange)
@@ -64,6 +63,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         ButterKnife.bind(this);
 
         StatusBarUtil.setColorForDrawerLayout(HomeActivity.this, drawer, getResources().getColor(R.color.thick_blue));
@@ -171,9 +171,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                     , R.id.content_home_replace, null, null);
 
 
-        } else if (id == R.id.home_menu_instructions) {
-
-
         } else if (id == R.id.home_menu_about_app) {
             ReplaceFragment(getSupportFragmentManager(), new AboutFragment()
                     , R.id.content_home_replace, null, null);
@@ -209,10 +206,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         int itemId = item.getItemId();
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void setVisibility(int visibility) {
-        ReplaceContentFramre.setVisibility(visibility);
     }
 
     @OnClick({R.id.nav_menu, R.id.App_Bar_TextViewChange, R.id.toolbar,

@@ -1,6 +1,7 @@
 package com.mecodroid.blood_bank.view.fragment.loginCycle;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,14 +43,18 @@ import static com.mecodroid.blood_bank.helper.BloodBankConatants.PASSWORD;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.PHONE;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.REMEMBER_USER;
 import static com.mecodroid.blood_bank.helper.BloodBankConatants.USER_NAME;
+import static com.mecodroid.blood_bank.helper.CommonModelMethod.blood_type_id;
 import static com.mecodroid.blood_bank.helper.CommonModelMethod.getAllBloodTypes;
 import static com.mecodroid.blood_bank.helper.CommonModelMethod.getAllGovern;
+import static com.mecodroid.blood_bank.helper.CommonModelMethod.startCityId;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.disappearKeypad;
+import static com.mecodroid.blood_bank.helper.HelperMethod.dismissLovelyDailog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isRTL;
+import static com.mecodroid.blood_bank.helper.HelperMethod.setLovelyProgressDailog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showCalender;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.SaveData;
@@ -90,7 +95,6 @@ public class NewAccountFragment extends BaseFragment {
     @BindView(R.id.new_account_fragment_btn_signup)
     Button newAccountFragmentBtnSignup;
 
-    private String blood_type_id, startCityId;
     private ApiServer apiServer;
     private Unbinder unbinder;
 
@@ -150,6 +154,7 @@ public class NewAccountFragment extends BaseFragment {
                     break;
 
                 case R.id.new_account_fragment_btn_signup:
+                    disappearKeypad(getActivity(),newAccountFragmentBtnSignup);
                     getAllRegisterFields();
                     break;
                 default:
@@ -241,15 +246,21 @@ public class NewAccountFragment extends BaseFragment {
 
     // create new Account
     private void signUp(String name, String email, String birth_date, String phone,
-                        String donation_last_date, final String password, String password_confirmation) {
+                        String donation_last_date, final String password,
+                        String password_confirmation) {
         if (isConnected(getActivity())) {
-            showProgressDialog(getActivity(), getResources().getString(R.string.creating_account));
+            setLovelyProgressDailog(getActivity(),
+                    R.drawable.vector_addperson_white24,
+                    getResources().getString(R.string.creating_account),
+                    Color.WHITE, R.color.thick_blue);
             apiServer.
-                    addNewAcount(name, email, birth_date, startCityId, phone, donation_last_date, password, password_confirmation, blood_type_id)
+                    addNewAcount(name, email, birth_date, startCityId,
+                            phone, donation_last_date, password,
+                            password_confirmation, blood_type_id)
                     .enqueue(new Callback<Register>() {
                         @Override
                         public void onResponse(Call<Register> call, Response<Register> response) {
-                            dismissProgressDialog();
+                            dismissLovelyDailog();
 
                             try {
                                 if (response.body().getStatus() == 1) {
@@ -288,19 +299,22 @@ public class NewAccountFragment extends BaseFragment {
 
                             } catch (Exception e) {
                                 customMassageError(getActivity(), e.getMessage());
+                            dismissLovelyDailog();
                             }
 
                         }
 
                         @Override
                         public void onFailure(Call<Register> call, Throwable t) {
-                            dismissProgressDialog();
+                            dismissLovelyDailog();
                             customMassageError(getActivity(), t.getMessage());
 
                         }
                     });
         } else {
             customMassageError(getActivity(), getResources().getString(R.string.no_internet));
+            dismissLovelyDailog();
+
         }
     }
 

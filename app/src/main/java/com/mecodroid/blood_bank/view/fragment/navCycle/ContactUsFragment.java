@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -62,7 +63,6 @@ public class ContactUsFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_contact_us, container, false);
 
-
         unbinder = ButterKnife.bind(this, view);
         // initializer tools
         setUpHomeActivity();
@@ -81,15 +81,15 @@ public class ContactUsFragment extends BaseFragment {
 
     private void getContactInfo() {
         if (isConnected(getActivity())) {
-            showProgressDialog(getActivity(), getString(R.string.waiit));
+            showProgressDialog(getActivity(), getString(R.string.wait));
             apiServer.getSettings(LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<Setting>() {
                 @Override
                 public void onResponse(Call<Setting> call, Response<Setting> response) {
                     dismissProgressDialog();
                     try {
                         if (response.body().getStatus() == 1) {
-                            contactUsFragmentTxtPhone.setText(response.body().getData().getPhone());
-                            contactUsFragmentTxtMail.setText(response.body().getData().getEmail());
+                            contactUsFragmentTxtPhone.setText("01064644164");
+                            contactUsFragmentTxtMail.setText("ahmedomr0914@gmail.com");
                         } else {
                             customMassageError(getActivity(), response.body().getMsg());
 

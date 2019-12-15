@@ -24,7 +24,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
+import static com.mecodroid.blood_bank.helper.HelperMethod.dismissLovelyDailog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
+import static com.mecodroid.blood_bank.helper.HelperMethod.setLovelyProgressDailog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 
 public class CommonModelMethod {
@@ -43,11 +45,12 @@ public class CommonModelMethod {
     // get all blood Types
     public static void getAllBloodTypes(final Activity activity, ApiServer apiServer,
                                         final Spinner spinner) {
-        showProgressDialog(activity, activity.getResources().getString(R.string.waiit));
+        setLovelyProgressDailog(activity, 0, null,
+                Color.WHITE, R.color.thick_blue);
         apiServer.getBloodTypes().enqueue(new Callback<BloodTypes>() {
             @Override
             public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
-                dismissProgressDialog();
+                dismissLovelyDailog();
                 generalList = new ArrayList<>();
                 generalList = response.body().getData();
                 // title blood type
@@ -184,7 +187,7 @@ public class CommonModelMethod {
 
     // get all city
     private static void getAllCity(Integer gavernoratesId, final Activity activity, ApiServer apiServer, final Spinner spinner) {
-        showProgressDialog(activity, activity.getResources().getString(R.string.waiit));
+        showProgressDialog(activity, activity.getResources().getString(R.string.wait));
         apiServer.getCities(gavernoratesId)
                 .enqueue(new Callback<CityDataModel>() {
                     @Override

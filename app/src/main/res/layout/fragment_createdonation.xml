@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bck_320_480"
+    tools:context=".view.fragment.HomeCycle.donationRequests.CreateDonationRequestFragment">
+
+<LinearLayout
+        android:id="@+id/new_account_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tinput0"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_60"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_8"
+            android:paddingTop="@dimen/dim_4"
+            android:paddingEnd="@dimen/dim_8"
+            android:paddingBottom="@dimen/dim_4"
+            android:textColorHint="@color/gray">
+
+            <EditText
+                android:id="@+id/create_donation_requests_fragment_et_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:fontFamily="@font/cairo_bold"
+                android:hint="@string/patient_name"
+                android:inputType="text"
+                android:maxLength="25"
+                android:padding="@dimen/dim_3"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tinput1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_60"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_8"
+            android:paddingTop="@dimen/dim_4"
+            android:paddingEnd="@dimen/dim_8"
+            android:paddingBottom="@dimen/dim_4"
+            android:textColorHint="@color/gray">
+
+            <EditText
+                android:id="@+id/create_donation_requests_fragment_et_age"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:fontFamily="@font/cairo_bold"
+                android:hint="@string/age_1"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:id="@+id/create_donation_requests_fragment_rl_blood"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_60"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_m"
+            android:paddingEnd="@dimen/dim_m">
+
+            <Spinner
+                android:id="@+id/create_donation_requests_fragment_sp_blood_type"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_48"
+                android:theme="@style/SpinnerTheme" />
+
+        </RelativeLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tinput3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_60"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_8"
+            android:paddingTop="@dimen/dim_4"
+            android:paddingEnd="@dimen/dim_8"
+            android:paddingBottom="@dimen/dim_4"
+            android:textColorHint="@color/gray">
+
+            <EditText
+                android:id="@+id/create_donation_requests_fragment_et_numbers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:fontFamily="@font/cairo_bold"
+                android:hint="@string/numbers"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tinput4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_60"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_8"
+            android:paddingTop="@dimen/dim_4"
+            android:paddingEnd="@dimen/dim_8"
+            android:paddingBottom="@dimen/dim_4"
+            android:textColorHint="@color/gray">
+
+            <EditText
+                android:id="@+id/create_donation_requests_fragment_et_hospital_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:fontFamily="@font/cairo_bold"
+                android:hint="@string/hospitalName"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tinput5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_80"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_8"
+            android:paddingTop="@dimen/dim_4"
+            android:paddingEnd="@dimen/dim_8"
+            android:paddingBottom="@dimen/dim_4"
+            android:textColorHint="@color/gray">
+
+            <TextView
+                android:id="@+id/create_donation_requests_fragment_txt_hospital_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:drawableEnd="@drawable/location"
+                android:ellipsize="end"
+                android:fontFamily="@font/cairo_bold"
+                android:gravity="start"
+                android:hint="@string/hospitaladdress"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/create_donation_requests_fragment_ll_spinners_addres_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_60"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dim_4"
+                android:layout_weight="1"
+                android:background="@drawable/shape_edit">
+
+                <Spinner
+                    android:id="@+id/create_donation_requests_fragment_sp_government"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:theme="@style/SpinnerTheme" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/create_donation_requests_fragment_Relative_City"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dim_4"
+                android:layout_weight="1"
+                android:background="@drawable/shape_edit">
+
+                <Spinner
+                    android:id="@+id/create_donation_requests_fragment_sp_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:theme="@style/SpinnerTheme" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tinput6"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_60"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_8"
+            android:paddingTop="@dimen/dim_4"
+            android:paddingEnd="@dimen/dim_8"
+            android:paddingBottom="@dimen/dim_4"
+            android:textColorHint="@color/gray">
+
+            <EditText
+                android:id="@+id/create_donation_requests_fragment_et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:fontFamily="@font/cairo_bold"
+                android:hint="@string/phon_numper"
+                android:inputType="number"
+                android:maxLength="11"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tinput7"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_80"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/dim_10"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginEnd="@dimen/dim_10"
+            android:background="@drawable/shape_edit"
+            android:paddingStart="@dimen/dim_8"
+            android:paddingTop="@dimen/dim_4"
+            android:paddingEnd="@dimen/dim_8"
+            android:paddingBottom="@dimen/dim_4"
+            android:textColorHint="@color/gray">
+
+            <EditText
+                android:id="@+id/create_donation_requests_fragment_et_notes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:fontFamily="@font/cairo_bold"
+                android:gravity="start"
+                android:hint="@string/details"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_16"
+                android:textStyle="bold" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/create_donation_requests_fragment_btn_create_request"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_50"
+            android:layout_marginTop="@dimen/dim_8"
+            android:layout_marginStart="@dimen/dim_12"
+            android:layout_marginEnd="@dimen/dim_12"
+            android:layout_marginBottom="@dimen/dim_20"
+            android:background="@drawable/shape_edit_blue"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/send_Req"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_16" />
+
+    </LinearLayout>
+</ScrollView>

@@ -140,7 +140,8 @@ public class ArticlesFragment extends BaseFragment {
 
                 postsArrayList = new ArrayList<>();
 
-                articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(), postsArrayList,
+                articlesAdapterRecycler = new RecyclerArticlesAdapter(getActivity(),
+                        postsArrayList,
                         favourites, articlesFragmentTxtNoItems);
                 articlesFragmentRvPosts.setAdapter(articlesAdapterRecycler);
 
@@ -207,6 +208,7 @@ public class ArticlesFragment extends BaseFragment {
 
     // get all category in spinner
     private void getDataCategory() {
+
         apiServer.getCategories().enqueue(new Callback<Categories>() {
             @Override
             public void onResponse(Call<Categories> call, Response<Categories> response) {
@@ -312,8 +314,8 @@ public class ArticlesFragment extends BaseFragment {
     // get  all filter Post with idCategory / KeyWord
     public void getPostsFilter(final int page) {
         keyword = articlesFragmentSearch.getQuery().toString().trim();
-        Call<Posts> call = apiServer.getPostFilter(LoadStringData(getActivity(), API_TOKEN),
-                page, keyword, category_type_id);
+        Call<Posts> call = apiServer.getPostFilter(LoadStringData(getActivity(),
+                API_TOKEN), page, keyword, category_type_id);
         loadDataPosts(page, call);
 
     }
@@ -321,7 +323,7 @@ public class ArticlesFragment extends BaseFragment {
     // load all data posts
     private void loadDataPosts(final int page, Call<Posts> call) {
         if (isConnected(getActivity())) {
-            showProgressDialog(getActivity(), getString(R.string.waiit));
+            showProgressDialog(getActivity(), getString(R.string.wait));
             call.enqueue(new Callback<Posts>() {
                 @Override
                 public void onResponse(Call<Posts> call, Response<Posts> response) {
@@ -418,6 +420,13 @@ public class ArticlesFragment extends BaseFragment {
 
                     //  articlesAdapterRecycler.searchlist(modlist);
                 }
+                return false;
+            }
+        });
+        articlesFragmentSearch.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+
                 return false;
             }
         });

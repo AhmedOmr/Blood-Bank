@@ -1,6 +1,7 @@
 package com.mecodroid.blood_bank.view.fragment.loginCycle;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -44,8 +45,11 @@ import static com.mecodroid.blood_bank.helper.BloodBankConatants.USER_NAME;
 import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageDone;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
+import static com.mecodroid.blood_bank.helper.HelperMethod.disappearKeypad;
+import static com.mecodroid.blood_bank.helper.HelperMethod.dismissLovelyDailog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
+import static com.mecodroid.blood_bank.helper.HelperMethod.setLovelyProgressDailog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadBoolean;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
@@ -143,10 +147,12 @@ public class LoginFragment extends BaseFragment {
                 break;
 
             case R.id.login_fragment_btn_login:
+                disappearKeypad(getActivity(), loginFragmentBtnLogin);
                 getAllLoginFields();
                 break;
 
             case R.id.login_fragment_btn_register:
+                disappearKeypad(getActivity(), loginFragmentBtnRegister);
                 ReplaceFragment(getActivity().getSupportFragmentManager(), new NewAccountFragment(),
                         R.id.fragmentlogin_container, null, null);
 
@@ -184,11 +190,15 @@ public class LoginFragment extends BaseFragment {
     private void logIn(String phone, final String password) {
         // check internet
         if (isConnected(getActivity())) {
-            showProgressDialog(getActivity(), getResources().getString(R.string.logging_in));
+            setLovelyProgressDailog(getActivity(),
+                    R.drawable.icon_login24,
+                    getResources().getString(R.string.logging_in),
+                    Color.WHITE, R.color.thick_blue);
+
             apiServer.addLogin(phone, password).enqueue(new Callback<Login>() {
                 @Override
                 public void onResponse(Call<Login> call, Response<Login> response) {
-                    dismissProgressDialog();
+                    dismissLovelyDailog();
                     try {
                         if (response.body() != null) {
                             if (response.body().getStatus() == 1) {
@@ -223,7 +233,7 @@ public class LoginFragment extends BaseFragment {
 
                 @Override
                 public void onFailure(Call<Login> call, Throwable t) {
-                    dismissProgressDialog();
+                    dismissLovelyDailog();
                     customMassageError(getActivity(), t.getMessage());
 
                 }

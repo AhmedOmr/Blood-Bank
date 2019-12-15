@@ -45,6 +45,7 @@ import static com.mecodroid.blood_bank.helper.HelperMethod.ReplaceFragment;
 import static com.mecodroid.blood_bank.helper.HelperMethod.customMassageError;
 import static com.mecodroid.blood_bank.helper.HelperMethod.dismissProgressDialog;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isConnected;
+import static com.mecodroid.blood_bank.helper.HelperMethod.isRTL;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showCalender;
 import static com.mecodroid.blood_bank.helper.HelperMethod.showProgressDialog;
 import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
@@ -98,7 +99,7 @@ public class UpdateDataUserFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_update_data_user, container, false);
         unbinder = ButterKnife.bind(this, view);
-        //
+
         inti();
         getAllGovernorate();
         getAllBloodTypes();
@@ -111,6 +112,22 @@ public class UpdateDataUserFragment extends BaseFragment {
         apiServer = getClient().create(ApiServer.class);
         // add value tool bar
         homeActivity.setTitle(getResources().getString(R.string.modify_the_data));
+        // check Language
+        if (isRTL()) {
+
+            updateDataUserFragmentSpinCity.setBackground(getResources().getDrawable(R.drawable.bgspinrt));
+            updateDataUserFragmentSpinBloodType.setBackground(getResources().getDrawable(R.drawable.bgspinrt));
+            updateDataUserFragmentSpinGov.setBackground(getResources().getDrawable(R.drawable.bgspinrt));
+
+        } else {
+
+            updateDataUserFragmentSpinCity.setBackground(getResources().getDrawable(R.drawable.bgspinlt));
+            updateDataUserFragmentSpinBloodType.setBackground(getResources().getDrawable(R.drawable.bgspinlt));
+            updateDataUserFragmentSpinGov.setBackground(getResources().getDrawable(R.drawable.bgspinlt));
+            updateDataUserFragmentSpinCity.setPaddingRelative(0, 0, 80, 0);
+            updateDataUserFragmentSpinGov.setPaddingRelative(0, 0, 80, 0);
+
+        }
 
     }
 
@@ -198,14 +215,14 @@ public class UpdateDataUserFragment extends BaseFragment {
 
     private void updateData(String name, String email, String birth_date, String phone, String donation_last_date, String password, String password_confirmation) {
         if (isConnected(getActivity())) {
+            showProgressDialog(getActivity(), getResources().getString(R.string.loading));
             apiServer.onUpdate(name, email, birth_date, startCityId, phone, donation_last_date, password, password_confirmation
                     , blood_type_id, LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<ProfileEdit>() {
                 @Override
                 public void onResponse(Call<ProfileEdit> call, Response<ProfileEdit> response) {
-
+                    dismissProgressDialog();
                     if (response.body().getStatus() == 1) {
 
-                        showProgressDialog(getActivity(), getResources().getString(R.string.loading));
 
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         getActivity().startActivity(intent);
@@ -227,7 +244,6 @@ public class UpdateDataUserFragment extends BaseFragment {
 
     public void getDataProfile() {
         if (isConnected(getActivity())) {
-            showProgressDialog(getActivity(), getResources().getString(R.string.waiit));
             apiServer.getProfile(LoadStringData(getActivity(), API_TOKEN)).enqueue(new Callback<Profile>() {
                 @Override
                 public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -250,7 +266,6 @@ public class UpdateDataUserFragment extends BaseFragment {
 
 
                         } catch (Exception e) {
-                            dismissProgressDialog();
                             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -263,7 +278,6 @@ public class UpdateDataUserFragment extends BaseFragment {
                 }
             });
         } else {
-            dismissProgressDialog();
             customMassageError(getActivity(), getResources().getString(R.string.no_internet));
 
         }
@@ -411,15 +425,12 @@ public class UpdateDataUserFragment extends BaseFragment {
 
         });
     }
-
     // get all city
     public void getAllCity(Integer gavernoratesId) {
-        showProgressDialog(getActivity(), getResources().getString(R.string.loading));
         apiServer.getCities(gavernoratesId)
                 .enqueue(new Callback<CityDataModel>() {
                     @Override
                     public void onResponse(Call<CityDataModel> call, Response<CityDataModel> response) {
-                        dismissProgressDialog();
                         List<GeneralModel> citiesDatumList = response.body().getData();
                         ArrayList<String> cities = new ArrayList<>();
                         final ArrayList<Integer> citiesId = new ArrayList<>();
@@ -488,7 +499,8 @@ public class UpdateDataUserFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.update_data_user_fragment_txt_birth_date, R.id.update_data_user_fragment_txt_last_don_date})
+    @OnClick({R.id.update_data_user_fragment_txt_birth_date,
+            R.id.update_data_user_fragment_txt_last_don_date})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.update_data_user_fragment_txt_birth_date:
@@ -499,6 +511,7 @@ public class UpdateDataUserFragment extends BaseFragment {
                 break;
         }
     }
+
     @Override
     public void onBack() {
         setUpHomeActivity();
@@ -506,12 +519,6 @@ public class UpdateDataUserFragment extends BaseFragment {
                 R.id.content_home_replace, null, null);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        getAllGovernorate();
-        getAllBloodTypes();
-    }
 
     @Override
     public void onDestroyView() {

@@ -10,12 +10,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_marginTop="@dimen/dim_30"
+        android:layout_marginBottom="@dimen/dim_30">
 
         <ImageView
             android:id="@+id/login_fragment_img_logo"
             android:layout_width="@dimen/dim_180"
             android:layout_height="@dimen/dim_180"
+            android:layout_marginTop="@dimen/dim_5"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:src="@drawable/logo256" />
@@ -48,7 +50,7 @@
                 android:maxLines="1"
                 android:fontFamily="@font/cairo_bold"
                 android:padding="@dimen/dim_3"
-                android:textColor="@color/black"
+                android:textColor="@color/thick_blue"
                 android:textSize="@dimen/font_16" />
         </android.support.design.widget.TextInputLayout>
 
@@ -69,7 +71,7 @@
             android:textColorHint="@color/gray"
             app:passwordToggleDrawable="@drawable/passbackgr"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/thick_blue">
+            app:passwordToggleTint="@color/black">
 
             <EditText
                 android:id="@+id/login_fragment_et_password"
@@ -82,7 +84,7 @@
                 android:maxLines="1"
                 android:inputType="textPassword"
                 android:padding="@dimen/dim_3"
-                android:textColor="@color/black"
+                android:textColor="@color/thick_blue"
                 android:textSize="@dimen/font_16" />
         </android.support.design.widget.TextInputLayout>
 

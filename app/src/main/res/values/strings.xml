@@ -42,7 +42,7 @@
     <string name="about">about</string>
     <string name="instructions">Instructions</string>
     <string name="about_app">About App</string>
-    <string name="contact_us">Contact Us</string>
+    <string name="contact_us">Contact With developer</string>
     <string name="navigation_drawer_open" tools:ignore="MissingTranslation">nav</string>
     <string name="navigation_drawer_close" translatable="false">Nav Close</string>
     <string name="rate_app">Rate App</string>
@@ -81,7 +81,7 @@
     <string name="invalid_pass">Invalid Password</string>
     <string name="pass_notidentical">Password not Identical</string>
     <string name="modify_the_data">modify the profileData</string>
-    <string name="details_about">هذا النص يتم استبداله</string>
+    <string name="details_about">This program is owned by al-Hikma Hospital blood bank for all its branches and is not owned by any official or governmental institution, please help patients find blood as quickly as possible.</string>
     <string name="message">Massage:</string>
     <string name="title">Title:</string>
     <string name="notify">Notify</string>
@@ -96,7 +96,7 @@
     <string name="dont_req">Donation Request:</string>
     <string name="update">Update</string>
     <string name="mail">Email:</string>
-    <string name="waiit">Wait</string>
+    <string name="wait">Wait</string>
     <string name="enterPatientName">Invalid patient name</string>
     <string name="enterPatientAge">Invalid patient age</string>
     <string name="select_blood">Select blood type</string>
@@ -113,12 +113,12 @@
     <string name="numbers">Number of bags:</string>
     <string name="chooseloc">Choose Location</string>
     <string name="age_1">Age:</string>
-    <string name="logout">Are youb sure to log out now ?</string>
+    <string name="logout">Are you sure to log out now ?</string>
     <string name="yes">yes</string>
     <string name="cancell">cancel</string>
     <string name="notification">Notifications</string>
     <string name="no_notificaation">No notification</string>
-    <string name="logging_in">Logging in</string>
+    <string name="logging_in">Log in</string>
     <string name="creating_account">Creating account</string>
     <string name="code_was_sent">The Code will sent to you in Email</string>
     <string name="no_results">No Results</string>
@@ -132,5 +132,7 @@
     <string name="details_show">Details</string>
     <string name="blood_types">Blood type</string>
     <string name="hospital_name">Hospital name:</string>
+    <string name="patient_name">Patient Name</string>
+    <string name="create_donationrequest">Create donation request</string>
 
 </resources>

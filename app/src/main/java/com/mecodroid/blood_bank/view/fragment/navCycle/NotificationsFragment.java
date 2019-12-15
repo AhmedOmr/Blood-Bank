@@ -109,7 +109,7 @@ public class NotificationsFragment extends BaseFragment {
     private void getNotificationList(final int page) {
         if (isConnected(getActivity())) {
 
-            showProgressDialog(getActivity(), getString(R.string.waiit));
+            showProgressDialog(getActivity(), getString(R.string.wait));
             apiServer.getNotificationsList(LoadStringData(getActivity(), API_TOKEN), page)
                     .enqueue(new Callback<Notifications>() {
                         @Override

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragmentlogin_container"
+    android:id="@+id/slider_acticity_fr_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.UserActivity">
-
-</FrameLayout>
+    android:background="@drawable/bckground480_800"
+    tools:context=".view.activity.SliderActivity"/>

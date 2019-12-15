@@ -8,28 +8,15 @@
         android:id="@+id/fragmentAboutText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:textAllCaps="false"
+        android:textSize="@dimen/font_18"
+        android:fontFamily="@font/cairo_bold"
         android:layout_margin="@dimen/dim_l2"
+        android:layout_centerInParent="true"
         android:background="@color/white"
-        android:text="@string/details_about" />
-
-    <TextView
-        android:id="@+id/fragmentAboutText2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/fragmentAboutText"
-        android:layout_margin="@dimen/dim_l2"
-
-        android:background="@color/white"
+        android:padding="@dimen/dim_8"
+        android:textColor="@color/thick_blue"
         android:text="@string/details_about" />
 
 
-    <TextView
-        android:id="@+id/fragmentAboutText3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/fragmentAboutText2"
-        android:layout_margin="@dimen/dim_l2"
-        android:background="@color/white"
-        android:text="@string/details_about" />
 </RelativeLayout>

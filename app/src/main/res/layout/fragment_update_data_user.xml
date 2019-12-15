@@ -108,7 +108,6 @@
                     android:layout_marginStart="@dimen/dim_10"
                     android:layout_marginTop="@dimen/dim_8"
                     android:layout_marginEnd="@dimen/dim_10"
-                    android:background="@drawable/bgspinrt"
                     android:gravity="center"
                     android:spinnerMode="dropdown"
                     android:theme="@style/SpinnerTheme" />
@@ -145,7 +144,6 @@
                     android:id="@+id/update_data_user_fragment_spin_gov"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_60"
-                    android:background="@drawable/bgspinrt"
                     android:layout_marginStart="@dimen/dim_10"
                     android:layout_marginTop="@dimen/dim_8"
                     android:layout_marginEnd="@dimen/dim_10"
@@ -160,7 +158,6 @@
                     android:layout_marginStart="@dimen/dim_10"
                     android:layout_marginTop="@dimen/dim_8"
                     android:layout_marginEnd="@dimen/dim_10"
-                    android:background="@drawable/bgspinrt"
                     android:gravity="center"
                     android:spinnerMode="dropdown"
                     android:theme="@style/SpinnerTheme" />

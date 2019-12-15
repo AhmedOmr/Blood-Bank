@@ -37,6 +37,7 @@ import com.mecodroid.blood_bank.data.model.generalResponse.GeneralResponse;
 import com.mecodroid.blood_bank.data.model.notifications_count.NotificationsCount;
 import com.mecodroid.blood_bank.view.activity.HomeActivity;
 import com.mecodroid.blood_bank.view.fragment.HomeCycle.donationRequests.DonationRequestContentFragment;
+import com.yarolegovich.lovelydialog.LovelyProgressDialog;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -63,6 +64,7 @@ public class HelperMethod {
     private static ProgressDialog checkDialog;
     private static String getNotificationsCount;
     private static ConnectivityManager cm;
+    private static LovelyProgressDialog lovelyDailog;
 
     public static MultipartBody.Part convertFileToMultipart(String pathImageFile, String Key) {
         if (pathImageFile != null) {
@@ -359,7 +361,7 @@ public class HelperMethod {
     }
 
     public static void getDonation(final Activity activity, ApiServer apiServices, String donationRequestId, String ApiToken, final boolean fromDonation) {
-        showProgressDialog(activity, activity.getString(R.string.waiit));
+        showProgressDialog(activity, activity.getString(R.string.wait));
         apiServices.getDonationDetails(ApiToken, donationRequestId).enqueue(new Callback<DonationRequestNotifications>() {
             @Override
             public void onResponse(Call<DonationRequestNotifications> call, Response<DonationRequestNotifications> response) {
@@ -462,4 +464,21 @@ public class HelperMethod {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spinner.setAdapter(adapter);
     }
+
+    public static void setLovelyProgressDailog(Activity activity, int icon,
+                                               String topTitle, int titleColor, int topColor) {
+        lovelyDailog = new LovelyProgressDialog(activity);
+        lovelyDailog.setIcon(icon)
+                .setTitle(R.string.wait)
+                .setTitleGravity(Gravity.CENTER)
+                .setTopTitle(topTitle)
+                .setTopTitleColor(titleColor)
+                .setTopColorRes(topColor)
+                .show();
+    }
+
+    public static void dismissLovelyDailog() {
+        lovelyDailog.dismiss();
+    }
+
 }

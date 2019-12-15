@@ -1,7 +1,6 @@
 package com.mecodroid.blood_bank.view.fragment.splashCycle;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,9 @@ import android.widget.TextView;
 import com.jaeger.library.StatusBarUtil;
 import com.mecodroid.blood_bank.R;
 import com.mecodroid.blood_bank.adapter.sliderAdapter.SliderPagerAdapter;
-import com.mecodroid.blood_bank.view.activity.RegsteratinAndLoginActivity;
+import com.mecodroid.blood_bank.view.activity.HomeActivity;
+import com.mecodroid.blood_bank.view.activity.UserActivity;
+import com.mecodroid.blood_bank.view.fragment.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,14 +27,17 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.mecodroid.blood_bank.adapter.sliderAdapter.SliderPagerAdapter.imagesList;
+import static com.mecodroid.blood_bank.helper.BloodBankConatants.API_TOKEN;
+import static com.mecodroid.blood_bank.helper.BloodBankConatants.REMEMBER_USER;
 import static com.mecodroid.blood_bank.helper.HelperMethod.isRTL;
-import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.setFirstTimeLaunch;
+import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadBoolean;
+import static com.mecodroid.blood_bank.helper.SharedPreferencesManger.LoadStringData;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SliderFragment extends Fragment {
+public class SliderFragment extends BaseFragment {
 
 
     @BindView(R.id.slider_fragment_view_pager)
@@ -142,11 +146,6 @@ public class SliderFragment extends Fragment {
         return viewPager.getCurrentItem() + i;
     }
 
-    private void launchHomeScreen() {
-        setFirstTimeLaunch(getActivity(), false);
-        startActivity(new Intent(getActivity(), RegsteratinAndLoginActivity.class));
-        ((Activity) getActivity()).overridePendingTransition(0, 0);
-    }
 
     @Override
     public void onDestroyView() {
@@ -165,12 +164,28 @@ public class SliderFragment extends Fragment {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    launchHomeScreen();
+                    checkUserLogin();
                 }
                 break;
             case R.id.slider_fragment_btn_skip:
-                launchHomeScreen();
+                checkUserLogin();
                 break;
         }
+    }
+
+    private void checkUserLogin() {
+        if (LoadStringData(getActivity(), API_TOKEN) != null &&
+                LoadBoolean(getActivity(), REMEMBER_USER)) {
+            startActivity(new Intent(getActivity(), HomeActivity.class));
+            getActivity().finish();
+        } else {
+            startActivity(new Intent(getActivity(), UserActivity.class));
+            getActivity().finish();
+        }
+    }
+
+    @Override
+    public void onBack() {
+        getActivity().finish();
     }
 }

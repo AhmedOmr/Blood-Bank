@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -94,12 +95,14 @@ public class CreateDonationRequestFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         initFragment();        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_create_donation_requests, container, false);
+        View view = inflater.inflate(R.layout.fragment_createdonation, container, false);
+
         unbinder = ButterKnife.bind(this, view);
 
         setUpHomeActivity();
 
         apiServer = getClient().create(ApiServer.class);
+        homeActivity.setTitle(getResources().getString(R.string.create_donationrequest));
 
         getAllGovernorate();
         getAllBloodTypes();
@@ -326,8 +329,7 @@ public class CreateDonationRequestFragment extends BaseFragment {
 
 
     @OnClick({R.id.create_donation_requests_fragment_btn_create_request,
-            R.id.create_donation_requests_fragment_txt_hospital_address,
-            R.id.create_donation_requests_fragment_rl_sub_view})
+            R.id.create_donation_requests_fragment_txt_hospital_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.create_donation_requests_fragment_btn_create_request:
